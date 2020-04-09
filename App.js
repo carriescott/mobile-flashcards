@@ -5,6 +5,10 @@ import TabNav from './components/TabNav';
 import { createStackNavigator} from 'react-navigation-stack';
 import { createAppContainer} from 'react-navigation';
 import Constants from 'expo-constants';
+import { Provider } from 'react-redux';
+import reducer from './reducers';
+import { createStore } from 'redux';
+
 import EntryDetail from './components/EntryDetail';
 // import { setLocalNotification } from './utils/helpers'
 
@@ -44,10 +48,12 @@ export default class App extends React.Component {
 
   render() {
     return (
+        <Provider store={createStore(reducer)}>
         <View style={{flex: 1}}>
             <UdaciStatusBar backgroundColor={softblue} barStyle="light-content" />
             <MainNavigator />
           </View>
+        </Provider>
         // <Provider store={createStore(reducer)}>
         //   {/*<View style={{flex: 1}}>*/}
         //   <View style={styles.container}>

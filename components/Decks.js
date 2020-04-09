@@ -4,23 +4,18 @@ import { purple, white } from '../utils/colors';
 import { connect } from 'react-redux';
 import { Ionicons } from "@expo/vector-icons";
 import { getDecks } from '../utils/api';
+import {ScrollView} from "react-native-web";
+import {receiveDecks} from '../actions/shared';
 
 
 class Decks extends Component {
     state = {
-        // run: 0,
-        // bike: 0,
-        // swim: 0,
-        // sleep: 0,
-        // eat: 0,
         ready: false,
-        data: null,
         decksAvailable: false
     }
 
     componentDidMount() {
-        const {dispatch} = this.props
-
+        const {dispatch} = this.props;
 
         getDecks()
             // .then((entries) => dispatch(receiveEntries(entries)))
@@ -29,13 +24,15 @@ class Decks extends Component {
                    console.log('data', data);
                     this.setState(() => ({
                         data: data,
-                        ready: true
-                    }))
+                    }));
                 }
+                dispatch(receiveDecks(data));
             })
-            // .then(() => this.setState(() => ({
-            //     ready: true
-            // })))
+            .then(() => this.setState(() => ({
+                decksAvailable: true,
+                ready: true
+            })));
+
 
         // fetchCalendarResults()
         //     .then((entries) => dispatch(receiveEntries(entries)))
@@ -50,36 +47,6 @@ class Decks extends Component {
     }
 
 
-
-
-
-    increment = (metric) => {
-        const { max, step } = getMetricMetaInfo(metric);
-
-        this.setState((state) => {
-            const count = state[metric] + step;
-
-            return {
-                ...state,
-                [metric]: count > max ? max : count
-            };
-        });
-    };
-    decrement = (metric) => {
-        this.setState((state) => {
-            const count = state[metric] - getMetricMetaInfo(metric).step;
-
-            return {
-                ...state,
-                [metric]: count < 0 ? 0 : count,
-            };
-        });
-    };
-    slide = (metric, value) => {
-        this.setState(() => ({
-            [metric]: value
-        }));
-    };
     submit = () => {
         const key = timeToString();
         const entry = this.state;
@@ -112,13 +79,22 @@ class Decks extends Component {
 
 
     render() {
-        // const deckInfo = getDeckInfo();
-        // console.log('deckInfo', deckInfo);
+
+        const data = this.state.data;
+        const dataTest = this.props.decks;
+        const availableDecks = this.props.availableDecks;
         console.log('state', this.state.ready, this.state.data);
+        console.log('data', data);
+        console.log('dataTest', dataTest);
+
+        const dataTestKeys = Object.keys(dataTest);
+        console.log('dataTestKeys', dataTestKeys);
+
+        const dataTestValues = Object.values(dataTest);
+        console.log('dataTestValues', dataTestValues);
 
         if (!this.state.decksAvailable) {
             return (
-                // <View style={{flex: 1}}>
                 <View style={styles.center}>
                     <Image
                         style={[styles.size, styles.marginBottom20, styles.marginTop20]}
@@ -126,16 +102,78 @@ class Decks extends Component {
                             uri:'https://gravatar.com/avatar/b9106a873e394fa182f827e720b43266?s=200&d=robohash&r=x'
                         }}
                     />
-                    {/*<Ionicons*/}
-                    {/*    name={Platform.OS === "ios" ? "ios-happy" : "md-happy"}*/}
-                    {/*    size={100} />*/}
                     <Text style={styles.font18}>No decks available</Text>
                     <Text style={styles.font18}>Please create a new deck to start</Text>
                 </View>
             );
         } else {
             return (
-                <Text>Decks</Text>
+
+                <View>
+                    <Text>Decks</Text>
+                    <Text>{JSON.stringify(availableDecks)}</Text>
+
+
+                    {/*<ul>*/}
+                    {/*    {availableDecks.map(deck => (*/}
+                    {/*        <li key={deck.title}>*/}
+                    {/*            <Text>{deck.title}</Text>*/}
+                    {/*        </li>*/}
+                    {/*    ))}*/}
+                    {/*</ul>*/}
+
+                    {/*<ScrollView>*/}
+                    {/*    <View>*/}
+                    {/*       */}
+                    {/*        /!*{data.map(deck => (*!/*/}
+                    {/*        /!*    <Text key={deck.key}></Text>*!/*/}
+                    {/*        /!*))}*!/*/}
+                    {/*    </View>*/}
+
+                    {/*</ScrollView>*/}
+
+
+                    {/*<Text>{JSON.stringify(this.state.data)}</Text>*/}
+
+                </View>
+
+
+
+                // <View style={styles.container}>
+                //     {/*<DateHeader date={(new Date()).toLocaleDateString()}/>*/}
+                //     {/*<Text>{JSON.stringify(this.state)}</Text>*/}
+                //     {Object.keys(metaInfo).map((key) => {
+                //         const { getIcon, types, ...rest } = metaInfo[key];
+                //         const value = this.state[key];
+                //
+                //         return (
+                //             <View key={key} style={styles.row}>
+                //                 {getIcon()}
+                //                 {types === 'slider' ? (
+                //                     <UdaciSlider
+                //                         value={value}
+                //                         onChange={(value) => this.slide(key, value)}
+                //                         {...rest}
+                //                     />
+                //                 ) : (<UdaciStepper
+                //                         value={value}
+                //                         onIncrement={() => this.increment(key)}
+                //                         onDecrement={() => this.decrement(key)}
+                //                         {...rest}
+                //                     />
+                //                 )}
+                //             </View>
+                //         );
+                //     })}
+                //     <SubmitBtn onPress={this.submit} />
+                // </View>
+
+
+
+
+
+
+
                 )
         }
 
@@ -230,17 +268,16 @@ const styles = StyleSheet.create({
 });
 
 
-// const styles = StyleSheet.compose(styles.center);
+function mapStateToProps(decks) {
 
+    const availableDecks = JSON.stringify(decks);
 
-function mapStateToProps (state) {
-    // const key = timeToString();
 
     return {
-        // alreadyLogged: state[key] && typeof state[key].today === 'undefined'
+        availableDecks,
+        decks
     }
 }
 
-
-// export default connect(mapStateToProps)(Decks)
-export default Decks
+export default connect(mapStateToProps)(Decks)
+// export default Decks
