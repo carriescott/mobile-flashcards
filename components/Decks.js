@@ -3,6 +3,7 @@ import { Text, TouchableOpacity, StyleSheet, View, Image } from 'react-native';
 import { purple, white } from '../utils/colors';
 import { connect } from 'react-redux';
 import { Ionicons } from "@expo/vector-icons";
+import { getDecks } from '../utils/api';
 
 
 class Decks extends Component {
@@ -13,6 +14,7 @@ class Decks extends Component {
         // sleep: 0,
         // eat: 0,
         ready: false,
+        data: null,
         decksAvailable: false
     }
 
@@ -20,7 +22,20 @@ class Decks extends Component {
         const {dispatch} = this.props
 
 
-        // getMockData()
+        getDecks()
+            // .then((entries) => dispatch(receiveEntries(entries)))
+            .then((data) => {
+                if (data) {
+                   console.log('data', data);
+                    this.setState(() => ({
+                        data: data,
+                        ready: true
+                    }))
+                }
+            })
+            // .then(() => this.setState(() => ({
+            //     ready: true
+            // })))
 
         // fetchCalendarResults()
         //     .then((entries) => dispatch(receiveEntries(entries)))
@@ -99,6 +114,7 @@ class Decks extends Component {
     render() {
         // const deckInfo = getDeckInfo();
         // console.log('deckInfo', deckInfo);
+        console.log('state', this.state.ready, this.state.data);
 
         if (!this.state.decksAvailable) {
             return (
