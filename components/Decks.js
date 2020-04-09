@@ -5,15 +5,6 @@ import { connect } from 'react-redux';
 import { Ionicons } from "@expo/vector-icons";
 
 
-// export default function Decks () {
-//     return (
-//         <View>
-//             <Text>Decks</Text>
-//         </View>
-//     )
-// }
-
-
 class Decks extends Component {
     state = {
         // run: 0,
@@ -21,8 +12,32 @@ class Decks extends Component {
         // swim: 0,
         // sleep: 0,
         // eat: 0,
+        ready: false,
         decksAvailable: false
     }
+
+    componentDidMount() {
+        const {dispatch} = this.props
+
+
+        // getMockData()
+
+        // fetchCalendarResults()
+        //     .then((entries) => dispatch(receiveEntries(entries)))
+        //     // .then(({entries}) => {
+        //     //     if (!entries[timeToString()]) {
+        //     //         dispatch(addEntry({
+        //     //             [timeToString()]: getDailyReminderValue()
+        //     //         }))
+        //     //     }
+        //     // })
+        //     .then(() => this.setState(() => ({ready: true})))
+    }
+
+
+
+
+
     increment = (metric) => {
         const { max, step } = getMetricMetaInfo(metric);
 
