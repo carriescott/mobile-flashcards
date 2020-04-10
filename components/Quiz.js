@@ -61,14 +61,15 @@ class Quiz extends Component {
             };
         });
     };
-    
+
     render() {
         const id = this.props.id;
         const deck = this.props.decks[id];
         const count = deck.questions.length;
         const title = deck.title;
         const i = this.state.index;
-        const question = deck.questions[0];
+        // const question = deck.questions[0];
+        let question = {};
 
         const showQuestion = this.state.showQuestion;
         const correct = this.state.correct;
@@ -78,77 +79,93 @@ class Quiz extends Component {
 
         console.log('count', count);
 
-        const finished = (answered < count) ? false : true;
-        const finishedTest = !(answered < count);
+        const finished = !(answered < count);
 
-        if (answered < count) {
-            console.log('not finished');
-            // this.setFinishedFlag(false);
+        if (!finished) {
+            question = deck.questions[i];
         } else {
-            console.log('finished');
-            // const finished = true;
-            // this.setFinishedFlag(true);
+            question = {};
         }
+
+        console.log('QT', question);
+
+        const score = (correct/count)*100;
+
+        console.log('score', score);
+
 
         // const finished = this.state.finished;
         console.log(showQuestion, correct, incorrect, index, answered, finished);
-        console.log('finishedTest', finishedTest);
+        console.log('finished', finished);
 
 
-        return (
-            <View style={styles.center}>
-                <Text style={styles.font18}>{count} questions</Text>
-                {showQuestion? (
-                    <View style={styles.center}>
-                        <Text style={styles.font18}>{question.question}</Text>
-                        <TouchableHighlight
-                            style=
-                                {Platform.OS === "ios" ?
-                                    [styles.iosSubmitBtn, styles.marginTop20]
-                                    : [styles.androidSubmitBtn, styles.marginTop20]}
-                            onPress={() => this.showAnswer()}
-                        >
-                            <Text style={styles.submitBtnText}>Show Answer</Text>
-                        </TouchableHighlight>
-                    </View>
-                ) : (
-                    <View>
-                        <Text style={styles.font18}>{question.answer}</Text>
-                        <TouchableHighlight
-                            style=
-                                {Platform.OS === "ios" ?
-                                    [styles.iosSubmitBtn, styles.marginTop20]
-                                    : [styles.androidSubmitBtn, styles.marginTop20]}
-                            onPress={() => this.showQuestion()}
-                        >
-                            <Text style={styles.submitBtnText}>Show Question</Text>
-                        </TouchableHighlight>
-                    </View>
-                )}
-
-                <View style={styles.row}>
-                    <TouchableHighlight
-                        style=
-                            {Platform.OS === "ios" ?
-                                [styles.iosCorrectBtn, styles.marginTop20]
-                                : [styles.androidCorrectBtn, styles.marginTop20]}
-                        onPress={() => this.handleCorrect()}
-                    >
-                        <Text style={styles.submitBtnText}>Correct</Text>
-                    </TouchableHighlight>
-                    <TouchableHighlight
-                        style=
-                            {Platform.OS === "ios" ?
-                                [styles.iosIncorrectBtn, styles.marginTop20]
-                                : [styles.androidIncorrectBtn, styles.marginTop20]}
-                        onPress={() => this.handleIncorrect()}
-                    >
-                        <Text style={styles.submitBtnText}>Incorrect</Text>
-                    </TouchableHighlight>
+        if (finished) {
+            return (
+                <View>
+                    <Text>You have Finished!</Text>
+                    <Text>You got {correct} answers Correct</Text>
+                    <Text>You got {incorrect} answers Incorrect</Text>
+                    {score > 80 ? (
+                        <Text>YAY you scored {score}%</Text>
+                    ) :
+                        <Text>Keep learning you scored {score}%</Text>
+                    }
                 </View>
-
-            </View>
-        )
+            )
+        } else {
+            return (
+                <View style={styles.center}>
+                    <Text style={styles.font18}>{count} questions</Text>
+                    {showQuestion? (
+                        <View style={styles.center}>
+                            <Text style={styles.font18}>{question.question}</Text>
+                            <TouchableHighlight
+                                style=
+                                    {Platform.OS === "ios" ?
+                                        [styles.iosSubmitBtn, styles.marginTop20]
+                                        : [styles.androidSubmitBtn, styles.marginTop20]}
+                                onPress={() => this.showAnswer()}
+                            >
+                                <Text style={styles.submitBtnText}>Show Answer</Text>
+                            </TouchableHighlight>
+                        </View>
+                    ) : (
+                        <View>
+                            <Text style={styles.font18}>{question.answer}</Text>
+                            <TouchableHighlight
+                                style=
+                                    {Platform.OS === "ios" ?
+                                        [styles.iosSubmitBtn, styles.marginTop20]
+                                        : [styles.androidSubmitBtn, styles.marginTop20]}
+                                onPress={() => this.showQuestion()}
+                            >
+                                <Text style={styles.submitBtnText}>Show Question</Text>
+                            </TouchableHighlight>
+                        </View>
+                    )}
+                    <View style={styles.row}>
+                        <TouchableHighlight
+                            style=
+                                {Platform.OS === "ios" ?
+                                    [styles.iosCorrectBtn, styles.marginTop20]
+                                    : [styles.androidCorrectBtn, styles.marginTop20]}
+                            onPress={() => this.handleCorrect()}
+                        >
+                            <Text style={styles.submitBtnText}>Correct</Text>
+                        </TouchableHighlight>
+                        <TouchableHighlight
+                            style=
+                                {Platform.OS === "ios" ?
+                                    [styles.iosIncorrectBtn, styles.marginTop20]
+                                    : [styles.androidIncorrectBtn, styles.marginTop20]}
+                            onPress={() => this.handleIncorrect()}
+                        >
+                            <Text style={styles.submitBtnText}>Incorrect</Text>
+                        </TouchableHighlight>
+                    </View>
+                </View>
+            )
+        }
     }
 }
 
