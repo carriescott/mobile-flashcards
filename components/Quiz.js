@@ -18,6 +18,7 @@ class Quiz extends Component {
         index: 0,
         correct: 0,
         incorrect:0,
+        count: 1,
         finished: false
     }
 
@@ -46,7 +47,8 @@ class Quiz extends Component {
             return {
                 correct: prevState.correct + 1,
                 index: prevState.index + 1,
-                answered: prevState.answered + 1
+                answered: prevState.answered + 1,
+                count: prevState.count + 1
             };
         });
     };
@@ -57,7 +59,8 @@ class Quiz extends Component {
             return {
                 incorrect: prevState.incorrect + 1,
                 index: prevState.index + 1,
-                answered: prevState.answered + 1
+                answered: prevState.answered + 1,
+                count: prevState.count + 1
             };
         });
     };
@@ -65,41 +68,29 @@ class Quiz extends Component {
     render() {
         const id = this.props.id;
         const deck = this.props.decks[id];
-        const count = deck.questions.length;
+        // const deck = null;
+        const countTotal = deck.questions.length;
         const title = deck.title;
         const i = this.state.index;
-        // const question = deck.questions[0];
         let question = {};
 
         const showQuestion = this.state.showQuestion;
         const correct = this.state.correct;
         const incorrect = this.state.incorrect;
-        const index = this.state.index;
         const answered = this.state.answered;
+        const count = this.state.count;
 
-        console.log('count', count);
-
-        const finished = !(answered < count);
+        const finished = !(answered < countTotal);
 
         if (!finished) {
             question = deck.questions[i];
         } else {
             question = {};
         }
-
-        console.log('QT', question);
-
-        const score = (correct/count)*100;
-
-        console.log('score', score);
+        const score = (correct/countTotal)*100;
 
 
-        // const finished = this.state.finished;
-        console.log(showQuestion, correct, incorrect, index, answered, finished);
-        console.log('finished', finished);
-
-
-        if (finished) {
+        if (finished && deck) {
             return (
                 <View>
                     <Text>You have Finished!</Text>
@@ -112,10 +103,10 @@ class Quiz extends Component {
                     }
                 </View>
             )
-        } else {
+        } else if (!finished && deck){
             return (
                 <View style={styles.center}>
-                    <Text style={styles.font18}>{count} questions</Text>
+                    <Text style={styles.font18}>{count}/{countTotal} questions</Text>
                     {showQuestion? (
                         <View style={styles.center}>
                             <Text style={styles.font18}>{question.question}</Text>
@@ -163,6 +154,12 @@ class Quiz extends Component {
                             <Text style={styles.submitBtnText}>Incorrect</Text>
                         </TouchableHighlight>
                     </View>
+                </View>
+            )
+        } else {
+            return (
+                <View>
+                    <Text>There are no questions in this deck</Text>
                 </View>
             )
         }

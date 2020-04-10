@@ -25,40 +25,46 @@ class DeckDetails extends Component {
         return (
             <View style={styles.center}>
                 <Text style={styles.font18}>{title}</Text>
-                <Image
-                    style={[styles.size, styles.marginBottom20, styles.marginTop20]}
-                    source={{
-                        uri: 'https://gravatar.com/avatar/58838c47bac42924b1327fa69c492402?s=200&d=robohash&r=x'
-                    }}
-                />
-                <Text>This deck contains {count} questions</Text>
-                <TouchableHighlight
-                    style=
-                        {Platform.OS === "ios" ?
-                            [styles.iosSubmitBtn, styles.marginTop20]
-                            : [styles.androidSubmitBtn, styles.marginTop20]}
-                    onPress={() =>
-                        this.props.navigation.navigate(
-                            'Quiz',
-                            {
-                                id:deck.title
-                            }
-                        )}
-                >
-                    <Text style={styles.submitBtnText}>Start Quiz!</Text>
-                </TouchableHighlight>
-                <TouchableHighlight
-                    style=
-                        {Platform.OS === "ios" ?
-                            [styles.iosSubmitBtn, styles.marginTop20]
-                            : [styles.androidSubmitBtn, styles.marginTop20]}
-                    onPress={() =>
-                        this.props.navigation.navigate(
-                            'NewQuestion'
-                        )}
-                >
-                    <Text style={styles.submitBtnText}>Add Question</Text>
-                </TouchableHighlight>
+                {count > 0 ? (
+                        <View>
+                            <Image
+                                style={[styles.size, styles.marginBottom20, styles.marginTop20]}
+                                source={{
+                                    uri: 'https://gravatar.com/avatar/58838c47bac42924b1327fa69c492402?s=200&d=robohash&r=x'
+                                }}
+                            />
+                            <Text>This deck contains {count} questions</Text>
+                            <TouchableHighlight
+                                style=
+                                    {Platform.OS === "ios" ?
+                                        [styles.iosSubmitBtn, styles.marginTop20]
+                                        : [styles.androidSubmitBtn, styles.marginTop20]}
+                                onPress={() =>
+                                    this.props.navigation.navigate(
+                                        'Quiz',
+                                        {
+                                            id:deck.title
+                                        }
+                                    )}
+                            >
+                                <Text style={styles.submitBtnText}>Start Quiz!</Text>
+                            </TouchableHighlight>
+                            <TouchableHighlight
+                                style=
+                                    {Platform.OS === "ios" ?
+                                        [styles.iosSubmitBtn, styles.marginTop20]
+                                        : [styles.androidSubmitBtn, styles.marginTop20]}
+                                onPress={() =>
+                                    this.props.navigation.navigate(
+                                        'NewQuestion'
+                                    )}
+                            >
+                                <Text style={styles.submitBtnText}>Add Question</Text>
+                            </TouchableHighlight>
+                        </View>
+                    ) :
+                    <Text>No questions here please add some to begin ... </Text>
+                }
             </View>
         )
     }
