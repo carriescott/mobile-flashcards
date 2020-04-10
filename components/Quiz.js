@@ -68,7 +68,6 @@ class Quiz extends Component {
     render() {
         const id = this.props.id;
         const deck = this.props.decks[id];
-        // const deck = null;
         const countTotal = deck.questions.length;
         const title = deck.title;
         const i = this.state.index;
@@ -92,14 +91,24 @@ class Quiz extends Component {
 
         if (finished && deck) {
             return (
-                <View>
-                    <Text>You have Finished!</Text>
+                <View style={styles.center}>
+                    <Image
+                        style={[styles.size, styles.marginBottom20, styles.marginTop20]}
+                        source={require('../assets/yay.png')}
+                    />
+                    <Text style={styles.font18}>You have Finished!</Text>
                     <Text>You got {correct} answers Correct</Text>
                     <Text>You got {incorrect} answers Incorrect</Text>
                     {score > 80 ? (
-                        <Text>YAY you scored {score}%</Text>
+                            <View style={styles.center}>
+                                <Text style={styles.score}>{score}%</Text>
+                                <Text>YAY!</Text>
+                            </View>
                     ) :
-                        <Text>Keep learning you scored {score}%</Text>
+                        <View style={styles.center}>
+                            <Text style={styles.score}>{score}%</Text>
+                            <Text>Keep learning</Text>
+                        </View>
                     }
                 </View>
             )
@@ -261,6 +270,10 @@ const styles = StyleSheet.create({
     },
     font18: {
         fontSize: 18
+    },
+    score: {
+        fontSize: 24,
+        fontWeight: '600'
     },
 });
 

@@ -23,7 +23,7 @@ class DeckDetails extends Component {
         const title = deck.title;
 
         return (
-            <View style={styles.center}>
+            <View style={styles.background}>
                 <Text style={styles.font18}>{title}</Text>
                 {count > 0 ? (
                         <View>
@@ -71,6 +71,12 @@ class DeckDetails extends Component {
 }
 
 const styles = StyleSheet.create({
+    background: {
+        backgroundColor: softblue,
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
     container: {
         flex: 1,
         padding: 20,

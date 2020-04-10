@@ -36,6 +36,7 @@ const MainNavigator = createAppContainer(createStackNavigator({
             headerTintColor: white,
             headerStyle: {
                 backgroundColor: softblue,
+                shadowColor: 'transparent'
             }
         })
     },
