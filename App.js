@@ -4,14 +4,13 @@ import {mintgreen, purple, softblue, white} from './utils/colors'
 import TabNav from './components/TabNav';
 import Deck from './components/Deck';
 import DeckDetails from './components/DeckDetails';
+import NewQuestion from './components/NewQuestion';
 import { createStackNavigator} from 'react-navigation-stack';
 import { createAppContainer} from 'react-navigation';
 import Constants from 'expo-constants';
 import { Provider } from 'react-redux';
 import reducer from './reducers';
 import { createStore } from 'redux';
-
-import EntryDetail from './components/EntryDetail';
 // import { setLocalNotification } from './utils/helpers'
 
 
@@ -24,21 +23,30 @@ function UdaciStatusBar ({backgroundColor, ...props}) {
 }
 
 const MainNavigator = createAppContainer(createStackNavigator({
-  Decks: {
-    screen: TabNav,
-    navigationOptions: ({navigation}) => ({
-      header: null,
-    }),
-  },
-  DeckInfo: {
-    screen: DeckDetails,
-    navigationOptions: ({navigation}) => ({
-      headerTintColor: white,
-      headerStyle: {
-        backgroundColor: softblue,
-      }
-    })
-  }
+    Decks: {
+        screen: TabNav,
+        navigationOptions: ({navigation}) => ({
+            header: null,
+        }),
+    },
+    DeckInfo: {
+        screen: DeckDetails,
+        navigationOptions: ({navigation}) => ({
+            headerTintColor: white,
+            headerStyle: {
+                backgroundColor: softblue,
+            }
+        })
+    },
+    NewQuestion: {
+        screen: NewQuestion,
+        navigationOptions: ({navigation}) => ({
+            headerTintColor: white,
+            headerStyle: {
+                backgroundColor: softblue,
+            }
+        })
+    }
 }));
 
 export default class App extends React.Component {
@@ -56,13 +64,6 @@ export default class App extends React.Component {
             {/*<Stack />*/}
           </View>
         </Provider>
-        // <Provider store={createStore(reducer)}>
-        //   {/*<View style={{flex: 1}}>*/}
-        //   <View style={styles.container}>
-        //     <UdaciStatusBar backgroundColor={purple} barStyle="light-content" />
-        //     <MainNavigator />
-        //   </View>
-        // </Provider>
     );
   }
 }

@@ -8,7 +8,6 @@ import {ScrollView} from "react-native-web";
 import {receiveDecks} from '../actions/shared';
 import Deck from './Deck';
 
-
 class Decks extends Component {
     state = {
         ready: false,
@@ -108,15 +107,8 @@ class Decks extends Component {
             );
         } else {
             return (
-
                 <View>
                     <Text style={styles.font18}>Decks</Text>
-                    {/*<Text>{JSON.stringify(availableDecks)}</Text>*/}
-                        {/*{dataTestKeys.map(key => (*/}
-                        {/*    <Text key={key}>*/}
-                        {/*        {key}*/}
-                        {/*    </Text>*/}
-                        {/*))}*/}
                     {Object.values(dataTest).map(deck => {
                         return (
                             <TouchableOpacity
@@ -124,53 +116,17 @@ class Decks extends Component {
                                 onPress={() =>
                                     this.props.navigation.navigate(
                                         'DeckInfo',
-                                        { headerTitle: deck.title }
+                                        {
+                                            headerTitle: deck.title,
+                                            id:deck.title
+                                        }
                                         )}
                             >
                                 <Deck id={deck.title} />
                             </TouchableOpacity>
                         );
                     })}
-
-                    {/*<ScrollView>*/}
-                    {/*    <View>*/}
-                    {/*       */}
-                    {/*        /!*{data.map(deck => (*!/*/}
-                    {/*        /!*    <Text key={deck.key}></Text>*!/*/}
-                    {/*        /!*))}*!/*/}
-                    {/*    </View>*/}
-
-                    {/*</ScrollView>*/}
                 </View>
-                // <View style={styles.container}>
-                //     {/*<DateHeader date={(new Date()).toLocaleDateString()}/>*/}
-                //     {/*<Text>{JSON.stringify(this.state)}</Text>*/}
-                //     {Object.keys(metaInfo).map((key) => {
-                //         const { getIcon, types, ...rest } = metaInfo[key];
-                //         const value = this.state[key];
-                //
-                //         return (
-                //             <View key={key} style={styles.row}>
-                //                 {getIcon()}
-                //                 {types === 'slider' ? (
-                //                     <UdaciSlider
-                //                         value={value}
-                //                         onChange={(value) => this.slide(key, value)}
-                //                         {...rest}
-                //                     />
-                //                 ) : (<UdaciStepper
-                //                         value={value}
-                //                         onIncrement={() => this.increment(key)}
-                //                         onDecrement={() => this.decrement(key)}
-                //                         {...rest}
-                //                     />
-                //                 )}
-                //             </View>
-                //         );
-                //     })}
-                //     <SubmitBtn onPress={this.submit} />
-                // </View>
-
                 )
         }
     }

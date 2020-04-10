@@ -1,64 +1,68 @@
 import React, {Component} from 'react';
-import {Text, StyleSheet, View, Image, TouchableHighlight, TouchableOpacity} from 'react-native';
+import {Text, TouchableOpacity, StyleSheet, View, TextInput, Button, Image, TouchableHighlight} from 'react-native';
 import {purple, white, softblue} from '../utils/colors';
-import {connect} from "react-redux";
 
-class DeckDetails extends Component {
+class NewQuestion extends Component {
 
-    static navigationOptions = ({ navigation }) => {
-        const { headerTitle } = navigation.state.params;
+    static navigationOptions = () => {
         return {
-            title: `${headerTitle}`
+            title: 'New Question'
         };
     };
 
+    state = {
+        value: '',
+        question: '',
+        answer: ''
+    }
+
     render() {
-        const id = this.props.id;
-        const deck = this.props.decks[id];
-        const count = deck.questions.length;
-        const title = deck.title;
+        const deck = 'React';
 
         return (
             <View style={styles.center}>
-                <Text style={styles.font18}>{title}</Text>
+                <Text style={styles.font18}>Add a new question to {deck}</Text>
                 <Image
                     style={[styles.size, styles.marginBottom20, styles.marginTop20]}
                     source={{
                         uri: 'https://gravatar.com/avatar/58838c47bac42924b1327fa69c492402?s=200&d=robohash&r=x'
                     }}
                 />
-                <Text>This deck contains {count} questions</Text>
+                <TextInput
+                    style={styles.formField}
+                    placeholder="question"
+                    value={this.state.question}
+                    // onChangeText={
+                    //     text => onChangeText(text)
+                    // }
+                    // value={value}
+                />
+                <TextInput
+                    style={styles.formField}
+                    placeholder="answer"
+                    value={this.state.answer}
+                    // onChangeText={
+                    //     text => onChangeText(text)
+                    // }
+                    // value={value}
+                />
+
+
                 <TouchableHighlight
                     style=
                         {Platform.OS === "ios" ?
                             [styles.iosSubmitBtn, styles.marginTop20]
                             : [styles.androidSubmitBtn, styles.marginTop20]}
-                    // onPress={startQuiz}
+                    // onPress={onPress}
                 >
-                    <Text style={styles.submitBtnText}>Start Quiz!</Text>
-                </TouchableHighlight>
-                <TouchableHighlight
-                    style=
-                        {Platform.OS === "ios" ?
-                            [styles.iosSubmitBtn, styles.marginTop20]
-                            : [styles.androidSubmitBtn, styles.marginTop20]}
-                    // onPress={addQuestion}
-                    onPress={() =>
-                        this.props.navigation.navigate(
-                            'NewQuestion',
-                            {
-                                // headerTitle: deck.title,
-                                // id:deck.title
-                                title: 'New Question'
-                            }
-                        )}
-                >
-                    <Text style={styles.submitBtnText}>Add Question</Text>
+                    <Text style={styles.submitBtnText}>Add</Text>
                 </TouchableHighlight>
             </View>
         )
     }
 }
+
+
 
 const styles = StyleSheet.create({
     container: {
@@ -93,7 +97,7 @@ const styles = StyleSheet.create({
     },
     submitBtnText: {
         color: white,
-        fontSize: 18,
+        fontSize: 22,
         textAlign: 'center'
     },
     center: {
@@ -116,18 +120,13 @@ const styles = StyleSheet.create({
     font18: {
         fontSize: 18
     },
+    formField: {
+        height: 40,
+        borderColor: 'gray',
+        borderWidth: 1,
+        borderRadius: 4
+        // width: 100
+    }
 });
 
-
-function mapStateToProps(decks, {navigation}) {
-    const { headerTitle } = navigation.state.params;
-    const { id } = navigation.state.params;
-
-    return {
-        id,
-        headerTitle,
-        decks
-    }
-}
-
-export default connect(mapStateToProps)(DeckDetails)
+export default NewQuestion
