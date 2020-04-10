@@ -5,6 +5,7 @@ import TabNav from './components/TabNav';
 import Deck from './components/Deck';
 import DeckDetails from './components/DeckDetails';
 import NewQuestion from './components/NewQuestion';
+import Quiz from './components/Quiz';
 import { createStackNavigator} from 'react-navigation-stack';
 import { createAppContainer} from 'react-navigation';
 import Constants from 'expo-constants';
@@ -31,6 +32,15 @@ const MainNavigator = createAppContainer(createStackNavigator({
     },
     DeckInfo: {
         screen: DeckDetails,
+        navigationOptions: ({navigation}) => ({
+            headerTintColor: white,
+            headerStyle: {
+                backgroundColor: softblue,
+            }
+        })
+    },
+    Quiz: {
+        screen: Quiz,
         navigationOptions: ({navigation}) => ({
             headerTintColor: white,
             headerStyle: {

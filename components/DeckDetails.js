@@ -12,6 +12,10 @@ class DeckDetails extends Component {
         };
     };
 
+    state = {
+
+    }
+
     render() {
         const id = this.props.id;
         const deck = this.props.decks[id];
@@ -33,7 +37,13 @@ class DeckDetails extends Component {
                         {Platform.OS === "ios" ?
                             [styles.iosSubmitBtn, styles.marginTop20]
                             : [styles.androidSubmitBtn, styles.marginTop20]}
-                    // onPress={startQuiz}
+                    onPress={() =>
+                        this.props.navigation.navigate(
+                            'Quiz',
+                            {
+                                id:deck.title
+                            }
+                        )}
                 >
                     <Text style={styles.submitBtnText}>Start Quiz!</Text>
                 </TouchableHighlight>
@@ -42,15 +52,9 @@ class DeckDetails extends Component {
                         {Platform.OS === "ios" ?
                             [styles.iosSubmitBtn, styles.marginTop20]
                             : [styles.androidSubmitBtn, styles.marginTop20]}
-                    // onPress={addQuestion}
                     onPress={() =>
                         this.props.navigation.navigate(
-                            'NewQuestion',
-                            {
-                                // headerTitle: deck.title,
-                                // id:deck.title
-                                title: 'New Question'
-                            }
+                            'NewQuestion'
                         )}
                 >
                     <Text style={styles.submitBtnText}>Add Question</Text>
