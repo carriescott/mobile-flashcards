@@ -6,6 +6,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { getDecks } from '../utils/api';
 import {ScrollView} from "react-native-web";
 import {receiveDecks} from '../actions/shared';
+import Deck from './Deck';
 
 
 class Decks extends Component {
@@ -16,7 +17,6 @@ class Decks extends Component {
 
     componentDidMount() {
         const {dispatch} = this.props;
-
         getDecks()
             // .then((entries) => dispatch(receiveEntries(entries)))
             .then((data) => {
@@ -110,17 +110,27 @@ class Decks extends Component {
             return (
 
                 <View>
-                    <Text>Decks</Text>
-                    <Text>{JSON.stringify(availableDecks)}</Text>
-
-
-                    {/*<ul>*/}
-                    {/*    {availableDecks.map(deck => (*/}
-                    {/*        <li key={deck.title}>*/}
-                    {/*            <Text>{deck.title}</Text>*/}
-                    {/*        </li>*/}
-                    {/*    ))}*/}
-                    {/*</ul>*/}
+                    <Text style={styles.font18}>Decks</Text>
+                    {/*<Text>{JSON.stringify(availableDecks)}</Text>*/}
+                        {/*{dataTestKeys.map(key => (*/}
+                        {/*    <Text key={key}>*/}
+                        {/*        {key}*/}
+                        {/*    </Text>*/}
+                        {/*))}*/}
+                    {Object.values(dataTest).map(deck => {
+                        return (
+                            <TouchableOpacity
+                                key={deck.title}
+                                onPress={() =>
+                                    this.props.navigation.navigate(
+                                        'DeckInfo',
+                                        { headerTitle: deck.title }
+                                        )}
+                            >
+                                <Deck id={deck.title} />
+                            </TouchableOpacity>
+                        );
+                    })}
 
                     {/*<ScrollView>*/}
                     {/*    <View>*/}
@@ -131,14 +141,7 @@ class Decks extends Component {
                     {/*    </View>*/}
 
                     {/*</ScrollView>*/}
-
-
-                    {/*<Text>{JSON.stringify(this.state.data)}</Text>*/}
-
                 </View>
-
-
-
                 // <View style={styles.container}>
                 //     {/*<DateHeader date={(new Date()).toLocaleDateString()}/>*/}
                 //     {/*<Text>{JSON.stringify(this.state)}</Text>*/}
@@ -168,45 +171,8 @@ class Decks extends Component {
                 //     <SubmitBtn onPress={this.submit} />
                 // </View>
 
-
-
-
-
-
-
                 )
         }
-
-        // return (
-        //     <View style={styles.container}>
-        //         <DateHeader date={(new Date()).toLocaleDateString()}/>
-        //         <Text>{JSON.stringify(this.state)}</Text>
-        //         {Object.keys(metaInfo).map((key) => {
-        //             const { getIcon, types, ...rest } = metaInfo[key];
-        //             const value = this.state[key];
-        //
-        //             return (
-        //                 <View key={key} style={styles.row}>
-        //                     {getIcon()}
-        //                     {types === 'slider' ? (
-        //                         <UdaciSlider
-        //                             value={value}
-        //                             onChange={(value) => this.slide(key, value)}
-        //                             {...rest}
-        //                         />
-        //                     ) : (<UdaciStepper
-        //                             value={value}
-        //                             onIncrement={() => this.increment(key)}
-        //                             onDecrement={() => this.decrement(key)}
-        //                             {...rest}
-        //                         />
-        //                     )}
-        //                 </View>
-        //             );
-        //         })}
-        //         <SubmitBtn onPress={this.submit} />
-        //     </View>
-        // );
     }
 }
 
@@ -271,7 +237,6 @@ const styles = StyleSheet.create({
 function mapStateToProps(decks) {
 
     const availableDecks = JSON.stringify(decks);
-
 
     return {
         availableDecks,

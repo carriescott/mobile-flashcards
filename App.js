@@ -2,6 +2,8 @@ import React from 'react';
 import { View, Text, StyleSheet, Platform, StatusBar } from 'react-native';
 import {mintgreen, purple, softblue, white} from './utils/colors'
 import TabNav from './components/TabNav';
+import Deck from './components/Deck';
+import DeckDetails from './components/DeckDetails';
 import { createStackNavigator} from 'react-navigation-stack';
 import { createAppContainer} from 'react-navigation';
 import Constants from 'expo-constants';
@@ -13,7 +15,6 @@ import EntryDetail from './components/EntryDetail';
 // import { setLocalNotification } from './utils/helpers'
 
 
-
 function UdaciStatusBar ({backgroundColor, ...props}) {
   return (
       <View style={{ backgroundColor, height: Constants.statusBarHeight }}>
@@ -23,21 +24,21 @@ function UdaciStatusBar ({backgroundColor, ...props}) {
 }
 
 const MainNavigator = createAppContainer(createStackNavigator({
-  Home: {
+  Decks: {
     screen: TabNav,
     navigationOptions: ({navigation}) => ({
       header: null,
     }),
+  },
+  DeckInfo: {
+    screen: DeckDetails,
+    navigationOptions: ({navigation}) => ({
+      headerTintColor: white,
+      headerStyle: {
+        backgroundColor: softblue,
+      }
+    })
   }
-  // EntryDetail: {
-  //   screen: EntryDetail,
-  //   navigationOptions: ({navigation}) => ({
-  //     headerTintColor: white,
-  //     headerStyle: {
-  //       backgroundColor: purple,
-  //     }
-  //   })
-  // }
 }));
 
 export default class App extends React.Component {
@@ -52,6 +53,7 @@ export default class App extends React.Component {
         <View style={{flex: 1}}>
             <UdaciStatusBar backgroundColor={softblue} barStyle="light-content" />
             <MainNavigator />
+            {/*<Stack />*/}
           </View>
         </Provider>
         // <Provider store={createStore(reducer)}>
