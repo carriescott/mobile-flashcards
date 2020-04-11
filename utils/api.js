@@ -17,25 +17,29 @@ export async function getDecks () {
         return data === null ? decks : JSON.parse(data);
     } catch (error) {
         console.log(error);
-        // Error saving data
     }
 }
 
-
-export function getDeck () {
-    return AsyncStorage.getItem(MOBILE_FlASHCARDS_KEY)
-        .then(formatCalendarResults)
+export function getDeck (title) {
+    return getDecks().then((decks) => decks[title])
 }
 
-export function saveDeckTitle () {
-    return AsyncStorage.getItem(MOBILE_FlASHCARDS_KEY)
-        .then(formatCalendarResults)
+export function saveDeckTitle (deckObject) {
+    AsyncStorage.mergeItem(MOBILE_FlASHCARDS_KEY, JSON.stringify(deckObject));
 }
 
-export function addCardToDeck () {
-    return AsyncStorage.getItem(MOBILE_FlASHCARDS_KEY)
-        .then(formatCalendarResults)
+export function addCardToDeck (title, object ) {
+    getDeck(title)
+        //use the returned value from getDeck to update AsynStorage
+        .then((deck) => {
+        deck.questions.push(object);
+        AsyncStorage.mergeItem(MOBILE_FlASHCARDS_KEY, JSON.stringify({
+            [title]:deck
+        }));
+    });
 }
+
+
 
 
 

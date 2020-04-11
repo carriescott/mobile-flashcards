@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import {Text, TouchableOpacity, StyleSheet, View, TextInput, Button, Image, TouchableHighlight} from 'react-native';
 import {purple, white, softblue} from '../utils/colors';
+import { addQuestion } from '../actions/shared';
+import { addCardToDeck } from '../utils/api';
+import { connect } from 'react-redux';
 
 class NewQuestion extends Component {
 
@@ -11,17 +14,31 @@ class NewQuestion extends Component {
     };
 
     state = {
-        value: '',
         question: '',
         answer: ''
     }
 
+    submit = () => {
+        const key = this.props.id;
+        const object = {
+            question: this.state.question,
+            answer: this.state.answer
+        }
+        //add question to redux store
+        const { dispatch } = this.props;
+        dispatch(addQuestion(key, object));
+        //update AsyncStorage
+        addCardToDeck(key, object);
+        //reset state
+        this.setState(() => ({question: '', answer: ''}));
+    };
+
     render() {
-        const deck = 'React';
+        const id = this.props.id;
 
         return (
             <View style={styles.center}>
-                <Text style={styles.font18}>Add a new question to {deck}</Text>
+                <Text style={styles.font18}>Add a new question to {id}</Text>
                 <Image
                     style={[styles.size, styles.marginBottom20, styles.marginTop20]}
                     source={{
@@ -32,28 +49,23 @@ class NewQuestion extends Component {
                     style={styles.formField}
                     placeholder="question"
                     value={this.state.question}
-                    // onChangeText={
-                    //     text => onChangeText(text)
-                    // }
-                    // value={value}
+                    onChangeText={(question) =>
+                        this.setState({question})}
                 />
                 <TextInput
                     style={styles.formField}
                     placeholder="answer"
                     value={this.state.answer}
-                    // onChangeText={
-                    //     text => onChangeText(text)
-                    // }
-                    // value={value}
+                    onChangeText={(answer) =>
+                        this.setState({answer})}
                 />
-
-
                 <TouchableHighlight
                     style=
                         {Platform.OS === "ios" ?
                             [styles.iosSubmitBtn, styles.marginTop20]
                             : [styles.androidSubmitBtn, styles.marginTop20]}
-                    // onPress={onPress}
+                    onPress={this.submit}
+                    disabled={this.state.question === '' || this.state.answer === ''}
                 >
                     <Text style={styles.submitBtnText}>Add</Text>
                 </TouchableHighlight>
@@ -129,4 +141,15 @@ const styles = StyleSheet.create({
     }
 });
 
-export default NewQuestion
+
+function mapStateToProps(decks, {navigation}) {
+    const { id } = navigation.state.params;
+
+    return {
+        id,
+        decks
+    }
+}
+
+export default connect(mapStateToProps)(NewQuestion)
+

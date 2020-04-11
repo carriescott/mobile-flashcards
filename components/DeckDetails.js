@@ -56,7 +56,10 @@ class DeckDetails extends Component {
                                         : [styles.androidSubmitBtn, styles.marginTop20]}
                                 onPress={() =>
                                     this.props.navigation.navigate(
-                                        'NewQuestion'
+                                        'NewQuestion',
+                                        {
+                                            id:deck.title
+                                        }
                                     )}
                             >
                                 <Text style={styles.submitBtnText}>Add Question</Text>

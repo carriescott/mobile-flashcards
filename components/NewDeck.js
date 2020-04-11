@@ -10,15 +10,37 @@ import {Text,
 import TextButton from "./TextButton";
 import {purple, white, softblue} from '../utils/colors';
 import Decks from "./Decks";
+import {addDeck} from "../actions/shared";
+import {connect} from "react-redux";
+import {saveDeckTitle} from "../utils/api";
 
 class NewDeck extends Component {
 
     state = {
-        value: null
+        title: ''
     }
 
-    render() {
+    submit = () => {
+        const key = this.state.title;
+        const deck = {
+            title: this.state.title,
+            questions: []
+        }
+        //add new deck to redux store
+        const { dispatch } = this.props;
+        dispatch(addDeck({
+            [key]: deck
+        }));
+        //update AsyncStorage
+        saveDeckTitle({
+                    [key]: deck
+                });
+        // reset state
+        this.setState(() => ({title:''}));
+    };
 
+
+    render() {
         return (
             <View style={styles.center}>
                 <Text style={styles.font18}>Time to Create a New Deck</Text>
@@ -31,33 +53,20 @@ class NewDeck extends Component {
                 <TextInput
                     style={styles.formField}
                     placeholder="Title of your new deck"
-                    value={this.state.value}
-                    // onChangeText={
-                    //     text => onChangeText(text)
-                    // }
-                    // value={value}
+                    value={this.state.title}
+                    onChangeText={(title) =>
+                        this.setState({title})}
                 />
-
-                {/*<TextButton*/}
-                {/*    style={{ padding: 10 }}*/}
-                {/*    // onPress={this.reset*/}
-                {/*    >*/}
-                {/*    Create*/}
-                {/*</TextButton>*/}
-
                 <TouchableHighlight
                     style=
                         {Platform.OS === "ios" ?
                             [styles.iosSubmitBtn, styles.marginTop20]
                             : [styles.androidSubmitBtn, styles.marginTop20]}
-                    // onPress={onPress}
+                    onPress={this.submit}
+                    disabled={this.state.title === ''}
                 >
                     <Text style={styles.submitBtnText}>Create</Text>
                 </TouchableHighlight>
-                {/*<Button*/}
-                {/*    title="Create New Deck"*/}
-                {/*    // onPress={this.handleSubmit}*/}
-                {/*/>*/}
             </View>
         )
     }
@@ -130,4 +139,11 @@ const styles = StyleSheet.create({
     }
 });
 
-export default NewDeck
+function mapStateToProps (decks) {
+
+    return {
+        decks
+    };
+}
+
+export default connect(mapStateToProps)(NewDeck)

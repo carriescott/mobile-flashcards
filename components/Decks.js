@@ -45,45 +45,12 @@ class Decks extends Component {
         //     .then(() => this.setState(() => ({ready: true})))
     }
 
-
-    submit = () => {
-        const key = timeToString();
-        const entry = this.state;
-
-        this.props.dispatch(addEntry({
-            [key]: entry
-        }))
-
-        this.setState(() => ({ run: 0, bike: 0, swim: 0, sleep: 0, eat: 0 }));
-
-        this.toHome();
-
-        submitEntry({ key, entry });
-
-        clearLocalNotification()
-            .then(setLocalNotification);
-    };
-    reset = () => {
-        const key = timeToString();
-        this.props.dispatch(
-            addEntry({
-                [key]: getDailyReminderValue()
-            }));
-        this.toHome()
-        removeEntry(key);
-    };
-    toHome = () => {
-        this.props.navigation.dispatch(NavigationActions.back({key: 'AddEntry'}))
-    }
-
-
     render() {
 
         const data = this.state.data;
         const dataTest = this.props.decks;
         const availableDecks = this.props.availableDecks;
-        console.log('state', this.state.ready, this.state.data);
-        console.log('data', data);
+
         console.log('dataTest', dataTest);
 
         const dataTestKeys = Object.keys(dataTest);
