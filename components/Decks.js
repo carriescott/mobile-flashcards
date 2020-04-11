@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
-import { Text, TouchableOpacity, StyleSheet, View, Image } from 'react-native';
+import { Text, TouchableOpacity, StyleSheet, View, Image, ScrollView } from 'react-native';
 import { purple, white } from '../utils/colors';
 import { connect } from 'react-redux';
 import { Ionicons } from "@expo/vector-icons";
 import { getDecks } from '../utils/api';
-import {ScrollView} from "react-native-web";
 import {receiveDecks} from '../actions/shared';
 import Deck from './Deck';
+import {setLocalNotification} from "../utils/helpers";
 
 class Decks extends Component {
     state = {
@@ -15,12 +15,12 @@ class Decks extends Component {
     }
 
     componentDidMount() {
+        // setLocalNotification();
         const {dispatch} = this.props;
         getDecks()
             // .then((entries) => dispatch(receiveEntries(entries)))
             .then((data) => {
                 if (data) {
-                   console.log('data', data);
                     this.setState(() => ({
                         data: data,
                     }));
@@ -47,18 +47,7 @@ class Decks extends Component {
 
     render() {
 
-        const data = this.state.data;
-        const dataTest = this.props.decks;
-        const availableDecks = this.props.availableDecks;
-
-        console.log('dataTest', dataTest);
-
-        const dataTestKeys = Object.keys(dataTest);
-        console.log('dataTestKeys', dataTestKeys);
-
-        const dataTestValues = Object.values(dataTest);
-        console.log('dataTestValues', dataTestValues);
-
+        const data = this.props.decks;
         if (!this.state.decksAvailable) {
             return (
                 <View style={styles.center}>
@@ -74,9 +63,8 @@ class Decks extends Component {
             );
         } else {
             return (
-                <View>
-                    <Text style={styles.font18}>Decks</Text>
-                    {Object.values(dataTest).map(deck => {
+                <ScrollView>
+                    {Object.values(data).map(deck => {
                         return (
                             <TouchableOpacity
                                 key={deck.title}
@@ -93,12 +81,11 @@ class Decks extends Component {
                             </TouchableOpacity>
                         );
                     })}
-                </View>
+                </ScrollView>
                 )
         }
     }
 }
-
 
 const styles = StyleSheet.create({
     container: {
@@ -158,9 +145,7 @@ const styles = StyleSheet.create({
 
 
 function mapStateToProps(decks) {
-
     const availableDecks = JSON.stringify(decks);
-
     return {
         availableDecks,
         decks
@@ -168,4 +153,3 @@ function mapStateToProps(decks) {
 }
 
 export default connect(mapStateToProps)(Decks)
-// export default Decks

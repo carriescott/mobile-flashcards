@@ -2,7 +2,6 @@ import React from 'react';
 import { View, Text, StyleSheet, Platform, StatusBar } from 'react-native';
 import {mintgreen, purple, softblue, white} from './utils/colors'
 import TabNav from './components/TabNav';
-import Deck from './components/Deck';
 import DeckDetails from './components/DeckDetails';
 import NewQuestion from './components/NewQuestion';
 import Quiz from './components/Quiz';
@@ -12,7 +11,7 @@ import Constants from 'expo-constants';
 import { Provider } from 'react-redux';
 import reducer from './reducers';
 import { createStore } from 'redux';
-// import { setLocalNotification } from './utils/helpers'
+import { setLocalNotification } from './utils/helpers';
 
 
 function UdaciStatusBar ({backgroundColor, ...props}) {
@@ -63,7 +62,7 @@ const MainNavigator = createAppContainer(createStackNavigator({
 export default class App extends React.Component {
 
   componentDidMount() {
-    // setLocalNotification()
+    setLocalNotification();
   }
 
   render() {
@@ -72,7 +71,6 @@ export default class App extends React.Component {
         <View style={{flex: 1}}>
             <UdaciStatusBar backgroundColor={softblue} barStyle="light-content" />
             <MainNavigator />
-            {/*<Stack />*/}
           </View>
         </Provider>
     );

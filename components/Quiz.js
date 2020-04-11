@@ -2,8 +2,15 @@ import React, {Component} from 'react';
 import {Text, StyleSheet, View, Image, TouchableHighlight, TouchableOpacity} from 'react-native';
 import {purple, white, softblue, red} from '../utils/colors';
 import {connect} from "react-redux";
+import {setLocalNotification, clearLocalNotification} from "../utils/helpers";
 
 class Quiz extends Component {
+
+    componentDidMount() {
+        // clearLocalNotification()
+        //     .then(setLocalNotification);
+    }
+
 
     static navigationOptions = ({ navigation }) => {
         const { id } = navigation.state.params;
