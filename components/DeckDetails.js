@@ -1,35 +1,62 @@
 import React, {Component} from 'react';
-import {Text, StyleSheet, View, Image, TouchableHighlight, TouchableOpacity} from 'react-native';
+import {Text, StyleSheet, View, Image, TouchableHighlight, TouchableOpacity, Animated, Platform} from 'react-native';
 import {purple, white, softblue} from '../utils/colors';
 import {connect} from "react-redux";
+import { Ionicons } from "@expo/vector-icons";
 
 class DeckDetails extends Component {
+
+    state = {
+        bounceValue: new Animated.Value(1),
+        fadeAnim: new Animated.Value(0)
+    }
+
+    componentDidMount() {
+        const{bounceValue, fadeAnim} = this.state;
+        Animated.sequence([
+            Animated.timing(bounceValue, { duration: 200, toValue: 1.5}),
+            Animated.spring(bounceValue, { toValue: 1, friction: 4})
+        ]).start();
+
+        Animated.timing(
+            fadeAnim,
+            {
+                toValue: 1,
+                duration: 3000
+            }
+        ).start();
+    }
 
     static navigationOptions = ({ navigation }) => {
         const { headerTitle } = navigation.state.params;
         return {
-            title: `${headerTitle}`
+            // title: `${headerTitle}`
+            title: null
         };
     };
 
     render() {
+        let { fadeAnim } = this.state;
         const id = this.props.id;
         const deck = this.props.decks[id];
         const count = deck.questions.length;
         const title = deck.title;
+        const bounceValue = this.state.bounceValue;
 
         return (
             <View style={styles.background}>
-                <Text style={styles.font18}>{title}</Text>
+                <Ionicons
+                    name={Platform.OS === "ios" ? "ios-bookmarks" : "md-bookmarks"}
+                    size={60}
+                style={styles.softblue}/>
+                <Animated.Text style={[styles.direction, {transform: [{scale: bounceValue}]}]}>{title}</Animated.Text>
                 {count > 0 ? (
-                        <View>
-                            <Image
-                                style={[styles.size, styles.marginBottom20, styles.marginTop20]}
-                                source={{
-                                    uri: 'https://gravatar.com/avatar/58838c47bac42924b1327fa69c492402?s=200&d=robohash&r=x'
-                                }}
-                            />
-                            <Text>This deck contains {count} questions</Text>
+                        <Animated.View style={{opacity:fadeAnim}}>
+                            {count === 1 ? (
+                                <Text style={styles.subText}>This deck contains {count} question</Text>
+                                ) :
+                                <Text style={styles.subText}>This deck contains {count} questions</Text>
+                            }
                             <TouchableHighlight
                                 style=
                                     {Platform.OS === "ios" ?
@@ -45,25 +72,31 @@ class DeckDetails extends Component {
                             >
                                 <Text style={styles.submitBtnText}>Start Quiz!</Text>
                             </TouchableHighlight>
-                        </View>
+
+                        </Animated.View>
                     ) :
-                    <Text>No questions here please add some to begin ... </Text>
+
+                    <Animated.View style={{opacity:fadeAnim}}>
+                        <Text>No questions here please add some to begin ... </Text>
+                    </Animated.View>
                 }
-                <TouchableHighlight
-                    style=
-                        {Platform.OS === "ios" ?
-                            [styles.iosSubmitBtn, styles.marginTop20]
-                            : [styles.androidSubmitBtn, styles.marginTop20]}
-                    onPress={() =>
-                        this.props.navigation.navigate(
-                            'NewQuestion',
-                            {
-                                id:deck.title
-                            }
-                        )}
-                >
-                    <Text style={styles.submitBtnText}>Add Question</Text>
-                </TouchableHighlight>
+                <Animated.View style={{opacity:fadeAnim}}>
+                    <TouchableHighlight
+                        style=
+                            {Platform.OS === "ios" ?
+                                [styles.iosSubmitBtn, styles.marginTop20]
+                                : [styles.androidSubmitBtn, styles.marginTop20]}
+                        onPress={() =>
+                            this.props.navigation.navigate(
+                                'NewQuestion',
+                                {
+                                    id:deck.title
+                                }
+                            )}
+                    >
+                        <Text style={styles.submitBtnText}>Add Question</Text>
+                    </TouchableHighlight>
+                </Animated.View>
             </View>
         )
     }
@@ -71,7 +104,8 @@ class DeckDetails extends Component {
 
 const styles = StyleSheet.create({
     background: {
-        backgroundColor: softblue,
+        // paddingTop: 40,
+        // backgroundColor: softblue,
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center'
@@ -131,6 +165,23 @@ const styles = StyleSheet.create({
     font18: {
         fontSize: 18
     },
+    direction: {
+        color:softblue,
+        fontSize: 50,
+        textAlign: 'center',
+    },
+    white: {
+        color: white,
+        // opacity: 0.5
+    },
+    softblue: {
+        color: softblue
+    },
+    subText: {
+        color: softblue,
+        fontSize: 20,
+        padding: 16
+    }
 });
 
 

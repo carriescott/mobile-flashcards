@@ -4,14 +4,14 @@ import {Text,
     View,
     TextInput,
     Image,
-    TouchableHighlight} from 'react-native';
+    TouchableHighlight,
+    KeyboardAvoidingView,
+    Platform} from 'react-native';
 import {purple, white, softblue} from '../utils/colors';
 import {addDeck} from "../actions/shared";
 import {connect} from "react-redux";
 import {saveDeckTitle} from "../utils/api";
 import {  StackActions, NavigationActions } from 'react-navigation';
-
-
 
 class NewDeck extends Component {
 
@@ -55,24 +55,20 @@ class NewDeck extends Component {
         this.props.navigation.dispatch(resetAction);
     };
 
-
     render() {
         return (
-            <View style={styles.center}>
-                <Text style={styles.font18}>Time to Create a New Deck</Text>
-                <Image
-                    style={[styles.size, styles.marginBottom20, styles.marginTop20]}
-                    source={{
-                        uri: 'https://gravatar.com/avatar/58838c47bac42924b1327fa69c492402?s=200&d=robohash&r=x'
-                    }}
-                />
-                <TextInput
-                    style={styles.formField}
-                    placeholder="Title of your new deck"
-                    value={this.state.title}
-                    onChangeText={(title) =>
-                        this.setState({title})}
-                />
+            <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.center}>
+                <Text style={[styles.font50, styles.marginBottom20]}>Let's Create a New Deck!</Text>
+                <View style={styles.row}>
+                    <TextInput
+                        style={[styles.formField, styles.marginBottom20]}
+                        placeholder="Title of your new deck"
+                        value={this.state.title}
+                        onChangeText={(title) =>
+                            this.setState({title})}
+                    />
+                </View>
+
                 <TouchableHighlight
                     style=
                         {Platform.OS === "ios" ?
@@ -83,7 +79,7 @@ class NewDeck extends Component {
                 >
                     <Text style={styles.submitBtnText}>Create</Text>
                 </TouchableHighlight>
-            </View>
+            </KeyboardAvoidingView>
         )
     }
 }
@@ -98,7 +94,6 @@ const styles = StyleSheet.create({
     },
     row: {
         flexDirection: 'row',
-        flex: 1,
         alignItems: 'center'
     },
     iosSubmitBtn: {
@@ -143,15 +138,17 @@ const styles = StyleSheet.create({
     marginBottom20: {
         marginBottom: 20
     },
-    font18: {
-        fontSize: 18
+    font50: {
+        fontSize: 50,
     },
     formField: {
-        height: 40,
-        borderColor: 'gray',
+        flex: 1,
+        margin: 15,
+        height: 48,
+        borderColor: softblue,
         borderWidth: 1,
-        borderRadius: 4
-        // width: 100
+        borderRadius: 4,
+        padding: 8,
     }
 });
 

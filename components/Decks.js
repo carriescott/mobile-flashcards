@@ -1,12 +1,10 @@
 import React, {Component} from 'react';
 import { Text, TouchableOpacity, StyleSheet, View, Image, ScrollView } from 'react-native';
-import { purple, white } from '../utils/colors';
+import {purple, softblue, white} from '../utils/colors';
 import { connect } from 'react-redux';
-import { Ionicons } from "@expo/vector-icons";
 import { getDecks } from '../utils/api';
 import {receiveDecks} from '../actions/shared';
 import Deck from './Deck';
-import {setLocalNotification} from "../utils/helpers";
 
 class Decks extends Component {
     state = {
@@ -15,7 +13,6 @@ class Decks extends Component {
     }
 
     componentDidMount() {
-        // setLocalNotification();
         const {dispatch} = this.props;
         getDecks()
             // .then((entries) => dispatch(receiveEntries(entries)))
@@ -31,39 +28,27 @@ class Decks extends Component {
                 decksAvailable: true,
                 ready: true
             })));
-
-
-        // fetchCalendarResults()
-        //     .then((entries) => dispatch(receiveEntries(entries)))
-        //     // .then(({entries}) => {
-        //     //     if (!entries[timeToString()]) {
-        //     //         dispatch(addEntry({
-        //     //             [timeToString()]: getDailyReminderValue()
-        //     //         }))
-        //     //     }
-        //     // })
-        //     .then(() => this.setState(() => ({ready: true})))
     }
 
     render() {
-
         const data = this.props.decks;
+
         if (!this.state.decksAvailable) {
             return (
                 <View style={styles.center}>
-                    <Image
-                        style={[styles.size, styles.marginBottom20, styles.marginTop20]}
-                        source={{
-                            uri:'https://gravatar.com/avatar/b9106a873e394fa182f827e720b43266?s=200&d=robohash&r=x'
-                        }}
-                    />
+                    {/*<Image*/}
+                    {/*    style={[styles.size]}*/}
+                    {/*    source={{*/}
+                    {/*        uri:'https://gravatar.com/avatar/b9106a873e394fa182f827e720b43266?s=200&d=robohash&r=x'*/}
+                    {/*    }}*/}
+                    {/*/>*/}
                     <Text style={styles.font18}>No decks available</Text>
                     <Text style={styles.font18}>Please create a new deck to start</Text>
                 </View>
             );
         } else {
             return (
-                <ScrollView>
+                <ScrollView contentContainerStyle={[styles.scrollView, styles.paddingBottom20, styles.paddingTop20]}>
                     {Object.values(data).map(deck => {
                         return (
                             <TouchableOpacity
@@ -88,6 +73,11 @@ class Decks extends Component {
 }
 
 const styles = StyleSheet.create({
+    scrollView: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        // backgroundColor: softblue
+    },
     container: {
         flex: 1,
         padding: 20,
@@ -137,6 +127,12 @@ const styles = StyleSheet.create({
     },
     marginBottom20: {
         marginBottom: 20
+    },
+    paddingTop20: {
+        paddingTop: 20
+    },
+    paddingBottom20: {
+        paddingBottom: 20
     },
     font18: {
         fontSize: 18

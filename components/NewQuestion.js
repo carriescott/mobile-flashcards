@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {Text, TouchableOpacity, StyleSheet, View, TextInput, Button, Image, TouchableHighlight} from 'react-native';
+import {Text, TouchableOpacity, StyleSheet, View, TextInput, Button, Image,
+    TouchableHighlight, KeyboardAvoidingView, Platform} from 'react-native';
 import {purple, white, softblue} from '../utils/colors';
 import { addQuestion } from '../actions/shared';
 import { addCardToDeck } from '../utils/api';
@@ -37,28 +38,26 @@ class NewQuestion extends Component {
         const id = this.props.id;
 
         return (
-            <View style={styles.center}>
-                <Text style={styles.font18}>Add a new question to {id}</Text>
-                <Image
-                    style={[styles.size, styles.marginBottom20, styles.marginTop20]}
-                    source={{
-                        uri: 'https://gravatar.com/avatar/58838c47bac42924b1327fa69c492402?s=200&d=robohash&r=x'
-                    }}
-                />
-                <TextInput
-                    style={styles.formField}
-                    placeholder="question"
-                    value={this.state.question}
-                    onChangeText={(question) =>
-                        this.setState({question})}
-                />
-                <TextInput
-                    style={styles.formField}
-                    placeholder="answer"
-                    value={this.state.answer}
-                    onChangeText={(answer) =>
-                        this.setState({answer})}
-                />
+            <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.center}>
+                <Text style={[styles.font50, styles.marginBottom20]}>Ready to Add a Question?</Text>
+                <View style={styles.row}>
+                    <TextInput
+                        style={[styles.formField, styles.marginBottom20]}
+                        placeholder="question"
+                        value={this.state.question}
+                        onChangeText={(question) =>
+                            this.setState({question})}
+                    />
+                </View>
+                <View style={styles.row}>
+                    <TextInput
+                        style={[styles.formField, styles.marginBottom20]}
+                        placeholder="answer"
+                        value={this.state.answer}
+                        onChangeText={(answer) =>
+                            this.setState({answer})}
+                    />
+                </View>
                 <TouchableHighlight
                     style=
                         {Platform.OS === "ios" ?
@@ -69,7 +68,7 @@ class NewQuestion extends Component {
                 >
                     <Text style={styles.submitBtnText}>Add</Text>
                 </TouchableHighlight>
-            </View>
+            </KeyboardAvoidingView>
         )
     }
 }
@@ -84,7 +83,6 @@ const styles = StyleSheet.create({
     },
     row: {
         flexDirection: 'row',
-        flex: 1,
         alignItems: 'center'
     },
     iosSubmitBtn: {
@@ -132,15 +130,19 @@ const styles = StyleSheet.create({
     font18: {
         fontSize: 18
     },
+    font50: {
+        fontSize: 50
+    },
     formField: {
-        height: 40,
-        borderColor: 'gray',
+        flex: 1,
+        margin: 15,
+        height: 48,
+        borderColor: softblue,
         borderWidth: 1,
-        borderRadius: 4
-        // width: 100
+        borderRadius: 4,
+        padding: 8,
     }
 });
-
 
 function mapStateToProps(decks, {navigation}) {
     const { id } = navigation.state.params;

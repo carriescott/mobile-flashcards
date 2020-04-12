@@ -1,15 +1,9 @@
 import React, {Component} from 'react';
-import {Text,
-    TouchableOpacity,
-    StyleSheet,
-    View,
-    TextInput,
-    Button,
-    Image,
-    TouchableHighlight} from 'react-native';
-import TextButton from "./TextButton";
+import {Text, StyleSheet, View, Image,} from 'react-native';
 import {purple, white, softblue} from '../utils/colors';
 import {connect} from "react-redux";
+import { Ionicons, FontAwesome } from "@expo/vector-icons";
+
 
 class Deck extends Component {
 
@@ -20,15 +14,13 @@ class Deck extends Component {
         const cards = deck.questions.length;
 
         return (
-            <View>
-                <Text>{title}</Text>
-                <Text>{cards}</Text>
-                <Image
-                    style={[styles.size, styles.marginBottom20, styles.marginTop20]}
-                    source={{
-                        uri: 'https://gravatar.com/avatar/58838c47bac42924b1327fa69c492402?s=200&d=robohash&r=x'
-                    }}
-                />
+            <View style={[styles.center, styles.border, styles.marginBottom20, styles.row, styles.padding16]}>
+                <Text style={[styles.font18, styles.white]}>{title}</Text>
+                {cards === 1 ? (
+                    <Text style={styles.white}>{cards} question</Text>
+                ) :
+                    <Text style={styles.white}>{cards} questions</Text>
+                }
             </View>
         )
     }
@@ -40,9 +32,21 @@ const styles = StyleSheet.create({
         padding: 20,
         backgroundColor: white
     },
+    border: {
+        borderWidth: 1,
+        borderColor: softblue,
+        backgroundColor: softblue,
+        borderRadius: 4,
+        width: 300,
+        elevation: 3,
+        shadowOffset: {width: 1, height: 1},
+        shadowColor: '#333',
+        shadowOpacity: 0.3
+    },
     row: {
         flexDirection: 'row',
-        flex: 1,
+        justifyContent: 'space-between',
+        // flex: 1,
         alignItems: 'center'
     },
     iosSubmitBtn: {
@@ -71,8 +75,8 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     center: {
-        flex: 1,
-        justifyContent: 'center',
+        // flex: 1,
+        // justifyContent: 'center',
         alignItems: 'center',
         marginLeft: 30,
         marginRight: 30
@@ -90,6 +94,12 @@ const styles = StyleSheet.create({
     font18: {
         fontSize: 18
     },
+    padding16: {
+        padding: 16
+    },
+    white: {
+        color: white
+    }
 });
 
 

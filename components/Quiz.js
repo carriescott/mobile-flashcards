@@ -156,35 +156,51 @@ class Quiz extends Component {
             )
         } else if (!finished && deck){
             return (
-                <View style={styles.center}>
+                <View style={[styles.center, styles.marginTop20]}>
                     <Text style={styles.font18}>{count}/{countTotal} questions</Text>
-                    <Text style={styles.font18}>{question.question}</Text>
-                    {!showAnswer ? (
-                        <View style={styles.center}>
-                            <TouchableHighlight
-                                style=
-                                    {Platform.OS === "ios" ?
-                                        [styles.iosSubmitBtn, styles.marginTop20]
-                                        : [styles.androidSubmitBtn, styles.marginTop20]}
-                                onPress={() => this.showAnswer()}
-                            >
-                                <Text style={styles.submitBtnText}>Show Answer</Text>
-                            </TouchableHighlight>
-                        </View>
-                    ) : (
-                        <View>
-                            <Text style={styles.font18}>{question.answer}</Text>
-                            <TouchableHighlight
-                                style=
-                                    {Platform.OS === "ios" ?
-                                        [styles.iosSubmitBtn, styles.marginTop20]
-                                        : [styles.androidSubmitBtn, styles.marginTop20]}
-                                onPress={() => this.hideAnswer()}
-                            >
-                                <Text style={styles.submitBtnText}>Hide Answer</Text>
-                            </TouchableHighlight>
-                        </View>
-                    )}
+
+
+                    <Text style={[styles.font40, styles.marginTop20]}>{question.question}</Text>
+
+                    <View style={[styles.center, styles.marginTop20]}>
+
+
+
+
+                            {!showAnswer ? (
+                                <View style={styles.center}>
+                                    <TouchableHighlight
+                                        style=
+                                            {Platform.OS === "ios" ?
+                                                [styles.iosSubmitBtn, styles.marginTop20]
+                                                : [styles.androidSubmitBtn, styles.marginTop20]}
+                                        onPress={() => this.showAnswer()}
+                                    >
+                                        <Text style={styles.submitBtnText}>Show Answer</Text>
+                                    </TouchableHighlight>
+                                </View>
+                            ) : (
+                                <View>
+                                    <Text style={styles.font18}>{question.answer}</Text>
+                                    <TouchableHighlight
+                                        style=
+                                            {Platform.OS === "ios" ?
+                                                [styles.iosSubmitBtn, styles.marginTop20]
+                                                : [styles.androidSubmitBtn, styles.marginTop20]}
+                                        onPress={() => this.hideAnswer()}
+                                    >
+                                        <Text style={styles.submitBtnText}>Hide Answer</Text>
+                                    </TouchableHighlight>
+                                </View>
+                            )}
+
+
+
+
+
+
+                    </View>
+
                     <View style={styles.row}>
                         <TouchableHighlight
                             style=
@@ -312,6 +328,9 @@ const styles = StyleSheet.create({
     },
     font18: {
         fontSize: 18
+    },
+    font40: {
+        fontSize: 40
     },
     score: {
         fontSize: 24,

@@ -26,7 +26,13 @@ const MainNavigator = createAppContainer(createStackNavigator({
     Decks: {
         screen: TabNav,
         navigationOptions: ({navigation}) => ({
-            header: null,
+            // header: null,
+            title: 'Flash Cards',
+            headerTintColor: white,
+            headerStyle: {
+                backgroundColor: softblue,
+                shadowColor: 'transparent'
+            }
         }),
     },
     DeckInfo: {
