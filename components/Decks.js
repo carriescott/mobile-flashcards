@@ -36,12 +36,6 @@ class Decks extends Component {
         if (!this.state.decksAvailable) {
             return (
                 <View style={styles.center}>
-                    {/*<Image*/}
-                    {/*    style={[styles.size]}*/}
-                    {/*    source={{*/}
-                    {/*        uri:'https://gravatar.com/avatar/b9106a873e394fa182f827e720b43266?s=200&d=robohash&r=x'*/}
-                    {/*    }}*/}
-                    {/*/>*/}
                     <Text style={styles.font18}>No decks available</Text>
                     <Text style={styles.font18}>Please create a new deck to start</Text>
                 </View>

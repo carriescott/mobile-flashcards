@@ -1,5 +1,15 @@
 import React, {Component} from 'react';
-import {Text, StyleSheet, View, Image, TouchableHighlight, TouchableOpacity, Animated, Platform} from 'react-native';
+import {
+    Text,
+    StyleSheet,
+    View,
+    Image,
+    TouchableHighlight,
+    TouchableOpacity,
+    Animated,
+    Platform,
+    KeyboardAvoidingView
+} from 'react-native';
 import {purple, white, softblue} from '../utils/colors';
 import {connect} from "react-redux";
 import { Ionicons } from "@expo/vector-icons";
@@ -30,8 +40,8 @@ class DeckDetails extends Component {
     static navigationOptions = ({ navigation }) => {
         const { headerTitle } = navigation.state.params;
         return {
-            // title: `${headerTitle}`
-            title: null
+            title: `${headerTitle}`
+            // title: null
         };
     };
 
@@ -44,18 +54,14 @@ class DeckDetails extends Component {
         const bounceValue = this.state.bounceValue;
 
         return (
-            <View style={styles.background}>
-                <Ionicons
-                    name={Platform.OS === "ios" ? "ios-bookmarks" : "md-bookmarks"}
-                    size={60}
-                style={styles.softblue}/>
-                <Animated.Text style={[styles.direction, {transform: [{scale: bounceValue}]}]}>{title}</Animated.Text>
+            <View style={styles.container}>
+                <Animated.Text style={[styles.font50, styles.center, styles.marginBottom20, {transform: [{scale: bounceValue}]}]}>{title}</Animated.Text>
                 {count > 0 ? (
                         <Animated.View style={{opacity:fadeAnim}}>
                             {count === 1 ? (
-                                <Text style={styles.subText}>This deck contains {count} question</Text>
+                                <Text style={styles.subText}>This deck contains {count} question!</Text>
                                 ) :
-                                <Text style={styles.subText}>This deck contains {count} questions</Text>
+                                <Text style={styles.subText}>This deck contains {count} questions!</Text>
                             }
                             <TouchableHighlight
                                 style=
@@ -77,7 +83,7 @@ class DeckDetails extends Component {
                     ) :
 
                     <Animated.View style={{opacity:fadeAnim}}>
-                        <Text>No questions here please add some to begin ... </Text>
+                        <Text style={styles.subText}>This deck contains {count} questions!</Text>
                     </Animated.View>
                 }
                 <Animated.View style={{opacity:fadeAnim}}>
@@ -113,7 +119,9 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
-        backgroundColor: white
+        backgroundColor: white,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     row: {
         flexDirection: 'row',
@@ -146,9 +154,9 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     center: {
-        flex: 1,
+        // flex: 1,
         justifyContent: 'center',
-        alignItems: 'center',
+        // alignItems: 'center',
         marginLeft: 30,
         marginRight: 30
     },
@@ -178,9 +186,12 @@ const styles = StyleSheet.create({
         color: softblue
     },
     subText: {
-        color: softblue,
+        // color: softblue,
         fontSize: 20,
         padding: 16
+    },
+    font50: {
+        fontSize: 50,
     }
 });
 

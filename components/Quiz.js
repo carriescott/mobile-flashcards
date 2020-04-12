@@ -49,7 +49,8 @@ class Quiz extends Component {
                 correct: prevState.correct + 1,
                 index: prevState.index + 1,
                 answered: prevState.answered + 1,
-                count: prevState.count + 1
+                count: prevState.count + 1,
+                showAnswer: false,
             };
         });
     };
@@ -60,7 +61,8 @@ class Quiz extends Component {
                 incorrect: prevState.incorrect + 1,
                 index: prevState.index + 1,
                 answered: prevState.answered + 1,
-                count: prevState.count + 1
+                count: prevState.count + 1,
+                showAnswer: false,
             };
         });
     };
@@ -69,7 +71,7 @@ class Quiz extends Component {
     resetQuiz = () => {
         this.setState(() => (
             {
-                showQuestion: true,
+                showAnswer: false,
                 answered: 0,
                 index: 0,
                 correct: 0,
@@ -116,91 +118,84 @@ class Quiz extends Component {
         if (finished && deck) {
             return (
                 <View style={styles.center}>
-                    <Image
-                        style={[styles.size, styles.marginBottom20, styles.marginTop20]}
-                        source={require('../assets/yay.png')}
-                    />
-                    <Text style={styles.font18}>You have Finished!</Text>
-                    <Text>You got {correct} answers Correct</Text>
-                    <Text>You got {incorrect} answers Incorrect</Text>
-                    {score > 80 ? (
-                            <View style={styles.center}>
-                                <Text style={styles.score}>{score}%</Text>
-                                <Text>YAY!</Text>
-                            </View>
-                    ) :
-                        <View style={styles.center}>
-                            <Text style={styles.score}>{score}%</Text>
-                            <Text>Keep learning</Text>
-                        </View>
-                    }
-                    <TouchableHighlight
-                        style=
-                            {Platform.OS === "ios" ?
-                                [styles.iosCorrectBtn, styles.marginTop20]
-                                : [styles.androidCorrectBtn, styles.marginTop20]}
-                        onPress={() => this.resetQuiz()}
-                    >
-                        <Text style={styles.submitBtnText}>Reset Quiz</Text>
-                    </TouchableHighlight>
-                    <TouchableHighlight
-                        style=
-                            {Platform.OS === "ios" ?
-                                [styles.iosIncorrectBtn, styles.marginTop20]
-                                : [styles.androidIncorrectBtn, styles.marginTop20]}
-                        onPress={() => this.back()}
-                    >
-                        <Text style={styles.submitBtnText}>Back to Deck</Text>
-                    </TouchableHighlight>
+                    <View style={styles.center}>
+                        {score > 80 ? (
+                            <Text style={[styles.font40, styles.marginTop50]}>Congratulations!</Text>
+                        ) : (
+                            <Text style={[styles.font40, styles.marginTop50]}>Keep Learning!</Text>
+                        )
+                        }
+                        <Text style={[styles.score, styles.marginTop50, styles.marginBottom50]}>{score}%</Text>
+
+                        {correct === 1 ? (
+                            <Text style={styles.subText}>You got {correct} answer Correct</Text>
+                        ) : (
+                            <Text style={styles.subText}>You got {correct} answers Correct</Text>
+                        )
+                        }
+
+                        {incorrect === 1 ? (
+                            <Text style={styles.subText}>You got {incorrect} answer Incorrect</Text>
+                        ) : (
+                            <Text style={styles.subText}>You got {incorrect} answers Incorrect</Text>
+                        )
+                        }
+
+                    </View>
+
+                    <View style={styles.row}>
+                        <TouchableHighlight
+                            style=
+                                {Platform.OS === "ios" ?
+                                    [styles.iosCorrectBtn, styles.marginTop20]
+                                    : [styles.androidCorrectBtn, styles.marginTop20]}
+                            onPress={() => this.resetQuiz()}
+                        >
+                            <Text style={styles.submitBtnText}>Reset Quiz</Text>
+                        </TouchableHighlight>
+                        <TouchableHighlight
+                            style=
+                                {Platform.OS === "ios" ?
+                                    [styles.iosCorrectBtn, styles.marginTop20]
+                                    : [styles.androidCorrectBtn, styles.marginTop20]}
+                            onPress={() => this.back()}
+                        >
+                            <Text style={styles.submitBtnText}>Back to Deck</Text>
+                        </TouchableHighlight>
+                    </View>
                 </View>
             )
         } else if (!finished && deck){
             return (
                 <View style={[styles.center, styles.marginTop20]}>
-                    <Text style={styles.font18}>{count}/{countTotal} questions</Text>
-
-
-                    <Text style={[styles.font40, styles.marginTop20]}>{question.question}</Text>
-
-                    <View style={[styles.center, styles.marginTop20]}>
-
-
-
-
-                            {!showAnswer ? (
-                                <View style={styles.center}>
-                                    <TouchableHighlight
-                                        style=
-                                            {Platform.OS === "ios" ?
-                                                [styles.iosSubmitBtn, styles.marginTop20]
-                                                : [styles.androidSubmitBtn, styles.marginTop20]}
-                                        onPress={() => this.showAnswer()}
-                                    >
-                                        <Text style={styles.submitBtnText}>Show Answer</Text>
-                                    </TouchableHighlight>
-                                </View>
-                            ) : (
-                                <View>
-                                    <Text style={styles.font18}>{question.answer}</Text>
-                                    <TouchableHighlight
-                                        style=
-                                            {Platform.OS === "ios" ?
-                                                [styles.iosSubmitBtn, styles.marginTop20]
-                                                : [styles.androidSubmitBtn, styles.marginTop20]}
-                                        onPress={() => this.hideAnswer()}
-                                    >
-                                        <Text style={styles.submitBtnText}>Hide Answer</Text>
-                                    </TouchableHighlight>
-                                </View>
-                            )}
-
-
-
-
-
-
-                    </View>
-
+                        <Text style={styles.font18}>{count}/{countTotal} questions</Text>
+                        <Text style={[styles.font40, styles.marginTop50]}>{question.question}</Text>
+                        {!showAnswer ? (
+                            <View style={styles.center}>
+                                <TouchableHighlight
+                                    style=
+                                        {Platform.OS === "ios" ?
+                                            [styles.iosSubmitBtn, styles.marginTop20]
+                                            : [styles.androidSubmitBtn, styles.marginTop20]}
+                                    onPress={() => this.showAnswer()}
+                                >
+                                    <Text style={styles.submitBtnText}>Show Answer</Text>
+                                </TouchableHighlight>
+                            </View>
+                        ) : (
+                            <View style={styles.center}>
+                                <Text style={styles.font18}>{question.answer}</Text>
+                                <TouchableHighlight
+                                    style=
+                                        {Platform.OS === "ios" ?
+                                            [styles.iosSubmitBtn, styles.marginTop20]
+                                            : [styles.androidSubmitBtn, styles.marginTop20]}
+                                    onPress={() => this.hideAnswer()}
+                                >
+                                    <Text style={styles.submitBtnText}>Hide Answer</Text>
+                                </TouchableHighlight>
+                            </View>
+                        )}
                     <View style={styles.row}>
                         <TouchableHighlight
                             style=
@@ -323,8 +318,14 @@ const styles = StyleSheet.create({
     marginTop20: {
         marginTop: 20
     },
+    marginTop50: {
+        marginTop: 50
+    },
     marginBottom20: {
         marginBottom: 20
+    },
+    marginBottom50: {
+        marginBottom: 50
     },
     font18: {
         fontSize: 18
@@ -333,9 +334,14 @@ const styles = StyleSheet.create({
         fontSize: 40
     },
     score: {
-        fontSize: 24,
+        fontSize: 40,
         fontWeight: '600'
     },
+    subText: {
+        // color: softblue,
+        fontSize: 20,
+        padding: 16
+    }
 });
 
 function mapStateToProps(decks, {navigation}) {
