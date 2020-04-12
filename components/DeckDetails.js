@@ -12,7 +12,6 @@ class DeckDetails extends Component {
         };
     };
 
-
     render() {
         const id = this.props.id;
         const deck = this.props.decks[id];
@@ -46,25 +45,25 @@ class DeckDetails extends Component {
                             >
                                 <Text style={styles.submitBtnText}>Start Quiz!</Text>
                             </TouchableHighlight>
-                            <TouchableHighlight
-                                style=
-                                    {Platform.OS === "ios" ?
-                                        [styles.iosSubmitBtn, styles.marginTop20]
-                                        : [styles.androidSubmitBtn, styles.marginTop20]}
-                                onPress={() =>
-                                    this.props.navigation.navigate(
-                                        'NewQuestion',
-                                        {
-                                            id:deck.title
-                                        }
-                                    )}
-                            >
-                                <Text style={styles.submitBtnText}>Add Question</Text>
-                            </TouchableHighlight>
                         </View>
                     ) :
                     <Text>No questions here please add some to begin ... </Text>
                 }
+                <TouchableHighlight
+                    style=
+                        {Platform.OS === "ios" ?
+                            [styles.iosSubmitBtn, styles.marginTop20]
+                            : [styles.androidSubmitBtn, styles.marginTop20]}
+                    onPress={() =>
+                        this.props.navigation.navigate(
+                            'NewQuestion',
+                            {
+                                id:deck.title
+                            }
+                        )}
+                >
+                    <Text style={styles.submitBtnText}>Add Question</Text>
+                </TouchableHighlight>
             </View>
         )
     }

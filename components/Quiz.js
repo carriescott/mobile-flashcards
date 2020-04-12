@@ -7,12 +7,6 @@ import {setLocalNotification, clearLocalNotification} from "../utils/helpers";
 
 class Quiz extends Component {
 
-    componentDidMount() {
-        // clearLocalNotification()
-        //     .then(setLocalNotification);
-    }
-
-
     static navigationOptions = ({ navigation }) => {
         const { id } = navigation.state.params;
         return {
@@ -21,7 +15,7 @@ class Quiz extends Component {
     };
 
     state = {
-        showQuestion: true,
+        showAnswer: false,
         answered: 0,
         index: 0,
         correct: 0,
@@ -35,22 +29,21 @@ class Quiz extends Component {
         this.setState((state) => {
             return {
                 ...state,
-                showQuestion: false
+                showAnswer: true
             };
         });
     };
 
-    showQuestion = () => {
+    hideAnswer = () => {
         this.setState((state) => {
             return {
                 ...state,
-                showQuestion: true
+                showAnswer: false
             };
         });
     };
 
     handleCorrect = () => {
-        console.log('correct');
         this.setState((prevState) => {
             return {
                 correct: prevState.correct + 1,
@@ -62,7 +55,6 @@ class Quiz extends Component {
     };
 
     handleIncorrect = () => {
-        console.log('incorrect');
         this.setState((prevState) => {
             return {
                 incorrect: prevState.incorrect + 1,
@@ -88,6 +80,11 @@ class Quiz extends Component {
             ));
     }
 
+    resetNotification() {
+        clearLocalNotification()
+            .then(setLocalNotification);
+    }
+
     back = () => {
         this.props.navigation.dispatch(NavigationActions.back());
     }
@@ -96,11 +93,10 @@ class Quiz extends Component {
         const id = this.props.id;
         const deck = this.props.decks[id];
         const countTotal = deck.questions.length;
-        const title = deck.title;
         const i = this.state.index;
-        let question = {};
+        let question;
 
-        const showQuestion = this.state.showQuestion;
+        const showAnswer = this.state.showAnswer;
         const correct = this.state.correct;
         const incorrect = this.state.incorrect;
         const answered = this.state.answered;
@@ -112,6 +108,7 @@ class Quiz extends Component {
             question = deck.questions[i];
         } else {
             question = {};
+            this.resetNotification();
         }
         const score = (correct/countTotal)*100;
 
@@ -161,9 +158,9 @@ class Quiz extends Component {
             return (
                 <View style={styles.center}>
                     <Text style={styles.font18}>{count}/{countTotal} questions</Text>
-                    {showQuestion? (
+                    <Text style={styles.font18}>{question.question}</Text>
+                    {!showAnswer ? (
                         <View style={styles.center}>
-                            <Text style={styles.font18}>{question.question}</Text>
                             <TouchableHighlight
                                 style=
                                     {Platform.OS === "ios" ?
@@ -182,9 +179,9 @@ class Quiz extends Component {
                                     {Platform.OS === "ios" ?
                                         [styles.iosSubmitBtn, styles.marginTop20]
                                         : [styles.androidSubmitBtn, styles.marginTop20]}
-                                onPress={() => this.showQuestion()}
+                                onPress={() => this.hideAnswer()}
                             >
-                                <Text style={styles.submitBtnText}>Show Question</Text>
+                                <Text style={styles.submitBtnText}>Hide Answer</Text>
                             </TouchableHighlight>
                         </View>
                     )}
