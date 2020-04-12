@@ -1,18 +1,17 @@
 import React, {Component} from 'react';
 import {Text,
-    TouchableOpacity,
     StyleSheet,
     View,
     TextInput,
-    Button,
     Image,
     TouchableHighlight} from 'react-native';
-import TextButton from "./TextButton";
 import {purple, white, softblue} from '../utils/colors';
-import Decks from "./Decks";
 import {addDeck} from "../actions/shared";
 import {connect} from "react-redux";
 import {saveDeckTitle} from "../utils/api";
+import {  StackActions, NavigationActions } from 'react-navigation';
+
+
 
 class NewDeck extends Component {
 
@@ -37,6 +36,23 @@ class NewDeck extends Component {
                 });
         // reset state
         this.setState(() => ({title:''}));
+
+        //reset stack
+        const resetAction = StackActions.reset({
+            index: 1,
+            actions: [
+                NavigationActions.navigate({ routeName: 'Decks' }),
+                NavigationActions.navigate({
+                    routeName: 'DeckInfo',
+                    params:{
+                                headerTitle: key,
+                                id: key
+                            }
+                }),
+            ],
+        });
+        //route based on reset stack
+        this.props.navigation.dispatch(resetAction);
     };
 
 

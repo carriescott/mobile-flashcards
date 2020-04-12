@@ -12,9 +12,6 @@ class DeckDetails extends Component {
         };
     };
 
-    state = {
-
-    }
 
     render() {
         const id = this.props.id;
