@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Text, StyleSheet, View, Image, TouchableHighlight, TouchableOpacity} from 'react-native';
 import {purple, white, softblue, red} from '../utils/colors';
 import {connect} from "react-redux";
+import { NavigationActions} from 'react-navigation';
 import {setLocalNotification, clearLocalNotification} from "../utils/helpers";
 
 class Quiz extends Component {
@@ -72,6 +73,25 @@ class Quiz extends Component {
         });
     };
 
+
+    resetQuiz = () => {
+        this.setState(() => (
+            {
+                showQuestion: true,
+                answered: 0,
+                index: 0,
+                correct: 0,
+                incorrect:0,
+                count: 1,
+                finished: false
+            }
+            ));
+    }
+
+    back = () => {
+        this.props.navigation.dispatch(NavigationActions.back());
+    }
+
     render() {
         const id = this.props.id;
         const deck = this.props.decks[id];
@@ -117,6 +137,24 @@ class Quiz extends Component {
                             <Text>Keep learning</Text>
                         </View>
                     }
+                    <TouchableHighlight
+                        style=
+                            {Platform.OS === "ios" ?
+                                [styles.iosCorrectBtn, styles.marginTop20]
+                                : [styles.androidCorrectBtn, styles.marginTop20]}
+                        onPress={() => this.resetQuiz()}
+                    >
+                        <Text style={styles.submitBtnText}>Reset Quiz</Text>
+                    </TouchableHighlight>
+                    <TouchableHighlight
+                        style=
+                            {Platform.OS === "ios" ?
+                                [styles.iosIncorrectBtn, styles.marginTop20]
+                                : [styles.androidIncorrectBtn, styles.marginTop20]}
+                        onPress={() => this.back()}
+                    >
+                        <Text style={styles.submitBtnText}>Back to Deck</Text>
+                    </TouchableHighlight>
                 </View>
             )
         } else if (!finished && deck){
