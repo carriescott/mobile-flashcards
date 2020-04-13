@@ -15,8 +15,11 @@ In order to install the project please run the following
 
 In order to run the project you will first need to install Expo for your mobile device
 
-Apple IOS [https://apps.apple.com/us/app/expo-client/id982107779](https://apps.apple.com/us/app/expo-client/id982107779)
-Android [https://play.google.com/store/apps/details?id=host.exp.exponent](https://play.google.com/store/apps/details?id=host.exp.exponent)
+Apple IOS 
+[https://apps.apple.com/us/app/expo-client/id982107779](https://apps.apple.com/us/app/expo-client/id982107779)
+
+Android [
+https://play.google.com/store/apps/details?id=host.exp.exponent](https://play.google.com/store/apps/details?id=host.exp.exponent)
 
 Running the following command in your project will launch a local browser for expo. 
 
