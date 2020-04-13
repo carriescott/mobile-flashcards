@@ -1,7 +1,6 @@
-import React, {Component} from 'react';
-import {Text, TouchableOpacity, StyleSheet, View, TextInput, Button, Image,
-    TouchableHighlight, KeyboardAvoidingView, Platform} from 'react-native';
-import {purple, white, softblue} from '../utils/colors';
+import React, { Component } from 'react';
+import { Text, StyleSheet, View, TextInput, TouchableHighlight, KeyboardAvoidingView, Platform} from 'react-native';
+import { white, softblue } from '../utils/colors';
 import { addQuestion } from '../actions/shared';
 import { addCardToDeck } from '../utils/api';
 import { connect } from 'react-redux';
@@ -35,11 +34,12 @@ class NewQuestion extends Component {
     };
 
     render() {
+
         const id = this.props.id;
 
         return (
             <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.center}>
-                <Text style={[styles.font50, styles.marginBottom20]}>Ready to Add a Question?</Text>
+                <Text style={[styles.font50, styles.marginBottom20]}>Let's add a question to {id}</Text>
                 <View style={styles.row}>
                     <TextInput
                         style={[styles.formField, styles.marginBottom20]}
@@ -73,14 +73,7 @@ class NewQuestion extends Component {
     }
 }
 
-
-
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 20,
-        backgroundColor: white
-    },
     row: {
         flexDirection: 'row',
         alignItems: 'center'
@@ -107,7 +100,7 @@ const styles = StyleSheet.create({
     },
     submitBtnText: {
         color: white,
-        fontSize: 22,
+        fontSize: 18,
         textAlign: 'center'
     },
     center: {
@@ -116,10 +109,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginLeft: 30,
         marginRight: 30
-    },
-    size: {
-        height: 140,
-        width: 140
     },
     marginTop20: {
         marginTop: 20

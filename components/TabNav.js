@@ -1,8 +1,8 @@
 import React from 'react';
 import { createBottomTabNavigator, createMaterialTopTabNavigator } from 'react-navigation-tabs';
 import { createAppContainer} from 'react-navigation';
-import { Platform, StatusBar } from 'react-native';
-import {mintgreen, purple, softblue, white} from '../utils/colors';
+import { Platform } from 'react-native';
+import { softblue, white} from '../utils/colors';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import Decks from './Decks';
 import NewDeck from './NewDeck';

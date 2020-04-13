@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
-import {Text, StyleSheet, View, Image, TouchableHighlight, TouchableOpacity} from 'react-native';
-import {purple, white, softblue, red} from '../utils/colors';
-import {connect} from "react-redux";
-import { NavigationActions} from 'react-navigation';
-import {setLocalNotification, clearLocalNotification} from "../utils/helpers";
+import React, { Component } from 'react';
+import { Text, StyleSheet, View, TouchableHighlight } from 'react-native';
+import { white, softblue, red } from '../utils/colors';
+import { connect } from "react-redux";
+import { NavigationActions } from 'react-navigation';
+import { setLocalNotification, clearLocalNotification } from "../utils/helpers";
 
 class Quiz extends Component {
 
@@ -23,7 +23,6 @@ class Quiz extends Component {
         count: 1,
         finished: false
     }
-
 
     showAnswer = () => {
         this.setState((state) => {
@@ -66,7 +65,6 @@ class Quiz extends Component {
             };
         });
     };
-
 
     resetQuiz = () => {
         this.setState(() => (
@@ -114,7 +112,6 @@ class Quiz extends Component {
         }
         const score = (correct/countTotal)*100;
 
-
         if (finished && deck) {
             return (
                 <View style={styles.center}>
@@ -142,7 +139,6 @@ class Quiz extends Component {
                         }
 
                     </View>
-
                     <View style={styles.row}>
                         <TouchableHighlight
                             style=
@@ -221,7 +217,7 @@ class Quiz extends Component {
         } else {
             return (
                 <View>
-                    <Text>There are no questions in this deck</Text>
+                    <Text>There are no questions in this deck!</Text>
                 </View>
             )
         }
@@ -229,11 +225,6 @@ class Quiz extends Component {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 20,
-        backgroundColor: white
-    },
     row: {
         flexDirection: 'row',
         flex: 1,
@@ -311,10 +302,6 @@ const styles = StyleSheet.create({
         marginLeft: 30,
         marginRight: 30
     },
-    size: {
-        height: 140,
-        width: 140
-    },
     marginTop20: {
         marginTop: 20
     },
@@ -338,7 +325,6 @@ const styles = StyleSheet.create({
         fontWeight: '600'
     },
     subText: {
-        // color: softblue,
         fontSize: 20,
         padding: 16
     }

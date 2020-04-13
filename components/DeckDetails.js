@@ -1,18 +1,7 @@
-import React, {Component} from 'react';
-import {
-    Text,
-    StyleSheet,
-    View,
-    Image,
-    TouchableHighlight,
-    TouchableOpacity,
-    Animated,
-    Platform,
-    KeyboardAvoidingView
-} from 'react-native';
-import {purple, white, softblue} from '../utils/colors';
-import {connect} from "react-redux";
-import { Ionicons } from "@expo/vector-icons";
+import React, { Component } from 'react';
+import { Text, StyleSheet, View, TouchableHighlight, Animated, Platform } from 'react-native';
+import { white, softblue } from '../utils/colors';
+import { connect } from "react-redux";
 
 class DeckDetails extends Component {
 
@@ -41,7 +30,6 @@ class DeckDetails extends Component {
         const { headerTitle } = navigation.state.params;
         return {
             title: `${headerTitle}`
-            // title: null
         };
     };
 
@@ -55,7 +43,13 @@ class DeckDetails extends Component {
 
         return (
             <View style={styles.container}>
-                <Animated.Text style={[styles.font50, styles.center, styles.marginBottom20, {transform: [{scale: bounceValue}]}]}>{title}</Animated.Text>
+                <Animated.Text style={
+                    [
+                        styles.titleText,
+                        styles.marginBottom20,
+                        {transform: [{scale: bounceValue}]}
+                        ]
+                }>{title}</Animated.Text>
                 {count > 0 ? (
                         <Animated.View style={{opacity:fadeAnim}}>
                             {count === 1 ? (
@@ -109,23 +103,16 @@ class DeckDetails extends Component {
 }
 
 const styles = StyleSheet.create({
-    background: {
-        // paddingTop: 40,
-        // backgroundColor: softblue,
-        flex: 1,
+    titleText: {
         justifyContent: 'center',
-        alignItems: 'center'
+        marginLeft: 30,
+        marginRight: 30,
+        fontSize: 50
     },
     container: {
         flex: 1,
         padding: 20,
-        backgroundColor: white,
         justifyContent: 'center',
-        alignItems: 'center'
-    },
-    row: {
-        flexDirection: 'row',
-        flex: 1,
         alignItems: 'center'
     },
     iosSubmitBtn: {
@@ -153,46 +140,16 @@ const styles = StyleSheet.create({
         fontSize: 18,
         textAlign: 'center'
     },
-    center: {
-        // flex: 1,
-        justifyContent: 'center',
-        // alignItems: 'center',
-        marginLeft: 30,
-        marginRight: 30
-    },
-    size: {
-        height: 140,
-        width: 140
-    },
     marginTop20: {
         marginTop: 20
     },
     marginBottom20: {
         marginBottom: 20
     },
-    font18: {
-        fontSize: 18
-    },
-    direction: {
-        color:softblue,
-        fontSize: 50,
-        textAlign: 'center',
-    },
-    white: {
-        color: white,
-        // opacity: 0.5
-    },
-    softblue: {
-        color: softblue
-    },
     subText: {
-        // color: softblue,
         fontSize: 20,
         padding: 16
     },
-    font50: {
-        fontSize: 50,
-    }
 });
 
 

@@ -3,7 +3,6 @@ import { AsyncStorage } from 'react-native'
 import { Notifications } from 'expo';
 import * as Permissions from 'expo-permissions';
 
-
 const NOTIFICATION_KEY = 'MobileFlashCards:notifications';
 
 function createNotification () {
@@ -22,7 +21,6 @@ function createNotification () {
     }
 }
 
-
 export function clearLocalNotification () {
     return AsyncStorage.removeItem(NOTIFICATION_KEY)
         .then(Notifications.cancelAllScheduledNotificationsAsync)
@@ -39,7 +37,6 @@ export function setLocalNotification () {
                             Notifications.cancelAllScheduledNotificationsAsync();
 
                             let tomorrow = new Date();
-                            // tomorrow.setTime(tomorrow.getTime() + 2 * 60000);
                             tomorrow.setDate(tomorrow.getDate() + 1)
                             tomorrow.setHours(0)
                             tomorrow.setMinutes(0)

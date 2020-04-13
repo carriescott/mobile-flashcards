@@ -1,17 +1,10 @@
-import React, {Component} from 'react';
-import {Text,
-    StyleSheet,
-    View,
-    TextInput,
-    Image,
-    TouchableHighlight,
-    KeyboardAvoidingView,
-    Platform} from 'react-native';
-import {purple, white, softblue} from '../utils/colors';
-import {addDeck} from "../actions/shared";
-import {connect} from "react-redux";
-import {saveDeckTitle} from "../utils/api";
-import {  StackActions, NavigationActions } from 'react-navigation';
+import React, { Component } from 'react';
+import {Text, StyleSheet, View, TextInput, TouchableHighlight, KeyboardAvoidingView, Platform } from 'react-native';
+import { white, softblue } from '../utils/colors';
+import { addDeck } from "../actions/shared";
+import { connect } from "react-redux";
+import { saveDeckTitle } from "../utils/api";
+import { StackActions, NavigationActions } from 'react-navigation';
 
 class NewDeck extends Component {
 
@@ -36,14 +29,13 @@ class NewDeck extends Component {
                 });
         // reset state
         this.setState(() => ({title:''}));
-
         //reset stack
         const resetAction = StackActions.reset({
             index: 1,
             actions: [
                 NavigationActions.navigate({ routeName: 'Decks' }),
                 NavigationActions.navigate({
-                    routeName: 'DeckInfo',
+                    routeName: 'DeckDetails',
                     params:{
                                 headerTitle: key,
                                 id: key
@@ -118,7 +110,7 @@ const styles = StyleSheet.create({
     },
     submitBtnText: {
         color: white,
-        fontSize: 22,
+        fontSize: 18,
         textAlign: 'center'
     },
     center: {
@@ -127,10 +119,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginLeft: 30,
         marginRight: 30
-    },
-    size: {
-        height: 140,
-        width: 140
     },
     marginTop20: {
         marginTop: 20

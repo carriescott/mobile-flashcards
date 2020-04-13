@@ -13,7 +13,6 @@ function decks (state = {}, action) {
                 ...action.deck,
             };
         case ADD_QUESTION:
-            console.log('title', action.key);
             const title = action.key;
             const question = action.object;
             return {

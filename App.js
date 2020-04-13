@@ -1,20 +1,20 @@
 import React from 'react';
-import { View, Text, StyleSheet, Platform, StatusBar } from 'react-native';
-import {mintgreen, purple, softblue, white} from './utils/colors'
+import Constants from 'expo-constants';
+import { View, StatusBar } from 'react-native';
+import { softblue, white } from './utils/colors'
+import { createStore } from 'redux';
+import { createStackNavigator} from 'react-navigation-stack';
+import { createAppContainer} from 'react-navigation';
+import { Provider } from 'react-redux';
+import reducer from './reducers';
+import { setLocalNotification } from './utils/helpers';
 import TabNav from './components/TabNav';
 import DeckDetails from './components/DeckDetails';
 import NewQuestion from './components/NewQuestion';
 import Quiz from './components/Quiz';
-import { createStackNavigator} from 'react-navigation-stack';
-import { createAppContainer} from 'react-navigation';
-import Constants from 'expo-constants';
-import { Provider } from 'react-redux';
-import reducer from './reducers';
-import { createStore } from 'redux';
-import { setLocalNotification } from './utils/helpers';
 
 
-function UdaciStatusBar ({backgroundColor, ...props}) {
+function FlashCardStatusBar ({backgroundColor, ...props}) {
   return (
       <View style={{ backgroundColor, height: Constants.statusBarHeight }}>
         <StatusBar translucent backgroundColor={backgroundColor} {...props} />
@@ -26,22 +26,19 @@ const MainNavigator = createAppContainer(createStackNavigator({
     Decks: {
         screen: TabNav,
         navigationOptions: ({navigation}) => ({
-            // header: null,
             title: 'Flash Cards',
             headerTintColor: white,
             headerStyle: {
                 backgroundColor: softblue,
-                shadowColor: 'transparent'
             }
         }),
     },
-    DeckInfo: {
+    DeckDetails: {
         screen: DeckDetails,
         navigationOptions: ({navigation}) => ({
             headerTintColor: white,
             headerStyle: {
                 backgroundColor: softblue,
-                shadowColor: 'transparent'
             }
         })
     },
@@ -75,18 +72,11 @@ export default class App extends React.Component {
     return (
         <Provider store={createStore(reducer)}>
         <View style={{flex: 1}}>
-            <UdaciStatusBar backgroundColor={softblue} barStyle="light-content" />
+            <FlashCardStatusBar backgroundColor={softblue} barStyle="light-content" />
             <MainNavigator />
           </View>
         </Provider>
     );
   }
 }
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+

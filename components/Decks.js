@@ -1,14 +1,12 @@
-import React, {Component} from 'react';
-import { Text, TouchableOpacity, StyleSheet, View, Image, ScrollView } from 'react-native';
-import {purple, softblue, white} from '../utils/colors';
+import React, { Component } from 'react';
+import { Text, TouchableOpacity, StyleSheet, View, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import { getDecks } from '../utils/api';
-import {receiveDecks} from '../actions/shared';
+import { receiveDecks } from '../actions/shared';
 import Deck from './Deck';
 
 class Decks extends Component {
     state = {
-        ready: false,
         decksAvailable: false
     }
 
@@ -26,7 +24,6 @@ class Decks extends Component {
             })
             .then(() => this.setState(() => ({
                 decksAvailable: true,
-                ready: true
             })));
     }
 
@@ -35,21 +32,21 @@ class Decks extends Component {
 
         if (!this.state.decksAvailable) {
             return (
-                <View style={styles.center}>
-                    <Text style={styles.font18}>No decks available</Text>
+                <View style={styles.container}>
+                <Text style={styles.font18}>No decks available!</Text>
                     <Text style={styles.font18}>Please create a new deck to start</Text>
                 </View>
             );
         } else {
             return (
-                <ScrollView contentContainerStyle={[styles.scrollView, styles.paddingBottom20, styles.paddingTop20]}>
+                <ScrollView contentContainerStyle={styles.scrollView}>
                     {Object.values(data).map(deck => {
                         return (
                             <TouchableOpacity
                                 key={deck.title}
                                 onPress={() =>
                                     this.props.navigation.navigate(
-                                        'DeckInfo',
+                                        'DeckDetails',
                                         {
                                             headerTitle: deck.title,
                                             id:deck.title
@@ -70,63 +67,15 @@ const styles = StyleSheet.create({
     scrollView: {
         justifyContent: 'center',
         alignItems: 'center',
-        // backgroundColor: softblue
+        paddingTop: 20,
+        paddingBottom: 20,
     },
     container: {
         flex: 1,
-        padding: 20,
-        backgroundColor: white
-    },
-    row: {
-        flexDirection: 'row',
-        flex: 1,
-        alignItems: 'center'
-    },
-    iosSubmitBtn: {
-        backgroundColor: purple,
-        padding: 10,
-        borderRadius: 7,
-        height: 45,
-        marginLeft: 40,
-        marginRight: 40
-    },
-    androidSubmitBtn: {
-        backgroundColor: purple,
-        padding: 10,
-        paddingLeft: 30,
-        paddingRight: 30,
-        borderRadius: 2,
-        height: 45,
-        alignSelf: 'flex-end',
-        justifyContent: 'center'
-    },
-    submitBtnText: {
-        color: white,
-        fontSize: 22,
-        textAlign: 'center'
-    },
-    center: {
-        flex: 1,
+        paddingTop: 20,
+        paddingBottom: 20,
         justifyContent: 'center',
         alignItems: 'center',
-        marginLeft: 30,
-        marginRight: 30
-    },
-    size: {
-        height: 140,
-        width: 140
-    },
-    marginTop20: {
-        marginTop: 20
-    },
-    marginBottom20: {
-        marginBottom: 20
-    },
-    paddingTop20: {
-        paddingTop: 20
-    },
-    paddingBottom20: {
-        paddingBottom: 20
     },
     font18: {
         fontSize: 18
@@ -135,9 +84,7 @@ const styles = StyleSheet.create({
 
 
 function mapStateToProps(decks) {
-    const availableDecks = JSON.stringify(decks);
     return {
-        availableDecks,
         decks
     }
 }
